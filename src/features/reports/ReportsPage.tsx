@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import * as XLSX from 'xlsx'
 import { jsPDF } from 'jspdf'
 import { GlassButton, GlassCard, PageSkeleton } from '@/design-system'
+import { formatHours } from '@/lib/utils'
 import { fetchSchools, fetchSubjects, fetchTeachers } from '@/services/mockApi'
 
 export function ReportsPage() {
@@ -63,7 +64,7 @@ export function ReportsPage() {
     doc.setFontSize(11)
     let y = 32
     schools.slice(0, 20).forEach((s) => {
-      doc.text(`${s.name} | ${s.director} | ${s.weeklyHours}h | ${s.status}`, 14, y)
+      doc.text(`${s.name} | ${s.director} | ${formatHours(s.weeklyHours, t('common.hours'))} | ${s.status}`, 14, y)
       y += 8
       if (y > 280) {
         doc.addPage()
@@ -115,7 +116,7 @@ export function ReportsPage() {
             <div key={s.id} className="flex flex-wrap justify-between gap-2 border-b border-line py-2 print:border-black/20">
               <span>{s.name}</span>
               <span>
-                {s.teachersCount} / {s.studentsCount} / {s.weeklyHours}h
+                {s.teachersCount} / {s.studentsCount} / {formatHours(s.weeklyHours, t('common.hours'))}
               </span>
             </div>
           ))}

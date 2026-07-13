@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { GlassInput, GlassModal } from '@/design-system'
+import { formatHours } from '@/lib/utils'
 import { globalSearch } from '@/services/mockApi'
 
 interface GlobalSearchProps {
@@ -96,7 +97,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                 >
                   <p className="text-sm font-medium">{subject.name}</p>
                   <p className="text-xs text-text-muted">
-                    {subject.teachersCount} · {subject.totalHours}h
+                    {subject.teachersCount} · {formatHours(subject.totalHours, t('common.hours'))}
                   </p>
                 </Link>
               ))}

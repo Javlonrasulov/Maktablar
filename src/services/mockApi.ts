@@ -49,21 +49,34 @@ export const schools: School[] = [
   school(1, 'Karimov Abduvali', '+998 93 511 01 01', 42, 680, 18, 980, 12, 'normal', 40.1582, 65.3781, '2026-07-13', true),
   school(2, 'Rakhimova Dilnoza', '+998 93 511 02 02', 38, 620, 17, 910, 28, 'shortage', 40.1621, 65.3712, '2026-07-12', true),
   school(3, 'Toshpulatov Jasur', '+998 93 511 03 03', 51, 840, 19, 1180, 8, 'overload', 40.1554, 65.3855, '2026-07-13', true),
+  school(4, 'Axmedova Dilbar', '+998 93 511 04 04', 37, 590, 17, 870, 24, 'shortage', 40.1605, 65.3750, '2026-07-11', true),
   school(5, 'Nurmatova Sevara', '+998 93 511 05 05', 34, 540, 16, 780, 40, 'shortage', 40.1688, 65.3620, '2026-07-10', true),
+  school(6, 'Qodirov Anvar', '+998 93 511 06 06', 41, 670, 18, 960, 14, 'normal', 40.1512, 65.3810, '2026-07-13', true),
   school(7, 'Ismoilov Bekzod', '+998 93 511 07 07', 46, 720, 18, 1040, 5, 'normal', 40.1495, 65.3910, '2026-07-13', true),
   school(8, 'Abdullayeva Madina', '+998 93 511 08 08', 29, 410, 15, 640, 55, 'problem', 40.1720, 65.3555, '2026-07-05', false),
+  school(9, 'Xolmatov Rustam', '+998 93 511 09 09', 43, 700, 18, 1010, 11, 'normal', 40.1640, 65.3890, '2026-07-12', true),
   school(10, 'Sodiqov Farhod', '+998 93 511 10 10', 48, 790, 19, 1120, 15, 'normal', 40.1610, 65.3980, '2026-07-12', true),
+  school(11, 'Tursunova Zilola', '+998 93 511 11 11', 35, 550, 16, 820, 30, 'shortage', 40.1470, 65.3655, '2026-07-10', true),
   school(12, 'Yusupova Nilufar', '+998 93 511 12 12', 36, 560, 17, 860, 32, 'shortage', 40.1450, 65.3700, '2026-07-11', true),
+  school(13, 'Rahmonov Bobur', '+998 93 511 13 13', 45, 740, 18, 1060, 9, 'normal', 40.1560, 65.3730, '2026-07-13', true),
   school(14, 'Ganiev Sardor', '+998 93 511 14 14', 55, 920, 20, 1280, 0, 'overload', 40.1530, 65.3600, '2026-07-13', true),
   school(15, 'Kholiqova Zarina', '+998 93 511 15 15', 40, 650, 18, 940, 18, 'normal', 40.1755, 65.3822, '2026-07-09', true),
+  school(16, 'Juraev Shuhrat', '+998 93 511 16 16', 33, 520, 16, 760, 36, 'shortage', 40.1690, 65.3680, '2026-07-08', true),
+  school(17, 'Norboyeva Kamola', '+998 93 511 17 17', 49, 810, 19, 1150, 7, 'overload', 40.1425, 65.3940, '2026-07-12', true),
   school(18, 'Mirzayev Umid', '+998 93 511 18 18', 44, 700, 18, 1000, 10, 'normal', 40.1402, 65.3888, '2026-07-13', true),
+  school(19, 'Saidov Ilhom', '+998 93 511 19 19', 38, 600, 17, 900, 20, 'normal', 40.1730, 65.3770, '2026-07-11', true),
   school(20, 'Olimova Shahzoda', '+998 93 511 20 20', 32, 480, 16, 720, 48, 'problem', 40.1666, 65.3450, '2026-07-03', false),
+  school(21, 'Mamatov Doniyor', '+998 93 511 21 21', 42, 690, 18, 990, 13, 'normal', 40.1540, 65.4005, '2026-07-13', true),
   school(22, 'Ergashev Dilshod', '+998 93 511 22 22', 47, 760, 19, 1080, 6, 'normal', 40.1577, 65.4025, '2026-07-12', true),
+  school(23, 'Alimova Sevinch', '+998 93 511 23 23', 36, 570, 17, 850, 26, 'shortage', 40.1460, 65.3580, '2026-07-09', true),
+  school(24, 'Usmonov Azizbek', '+998 93 511 24 24', 50, 830, 19, 1170, 3, 'overload', 40.1710, 65.3860, '2026-07-13', true),
   school(25, 'Xasanova Gulchehra', '+998 93 511 25 25', 39, 610, 17, 890, 22, 'shortage', 40.1488, 65.3544, '2026-07-13', true),
+  school(26, 'Karimova Nodira', '+998 93 511 26 26', 41, 660, 18, 950, 16, 'normal', 40.1635, 65.3510, '2026-07-10', true),
+  school(27, 'Sultonov Jahongir', '+998 93 511 27 27', 34, 530, 16, 790, 34, 'shortage', 40.1500, 65.3965, '2026-07-07', true),
   school(28, 'Boymurodov Aziz', '+998 93 511 28 28', 53, 880, 20, 1220, 4, 'overload', 40.1701, 65.3922, '2026-07-11', true),
 ]
 
-export const teachers: Teacher[] = [
+const handcraftedTeachers: Teacher[] = [
   {
     id: 't1',
     fullName: 'Alimova Dilfuza Raximovna',
@@ -184,6 +197,55 @@ export const teachers: Teacher[] = [
     classes: ['5-A', '6-A', '7-A', '8-A', '9-A'],
     schools: ['25-maktab'],
   },
+]
+
+const teacherSeeds: Array<{
+  fullName: string
+  specialty: string
+  category: string
+  experienceYears: number
+  schoolNumber: number
+  subjects: string[]
+  weeklyHours: number
+  status: Teacher['status']
+  classes: string[]
+}> = [
+  { fullName: 'Karimova Nilufar', specialty: 'Kimyo', category: 'Oliy', experienceYears: 12, schoolNumber: 7, subjects: ['Kimyo'], weeklyHours: 26, status: 'active', classes: ['8-A', '9-A', '10-A'] },
+  { fullName: 'Yusupov Anvar', specialty: 'Geografiya', category: 'Birinchi', experienceYears: 7, schoolNumber: 10, subjects: ['Geografiya'], weeklyHours: 20, status: 'active', classes: ['6-A', '7-B', '8-A'] },
+  { fullName: 'Ismoilova Dilnoza', specialty: 'Matematika', category: 'Oliy', experienceYears: 15, schoolNumber: 2, subjects: ['Matematika'], weeklyHours: 28, status: 'active', classes: ['5-A', '6-A', '7-A', '8-A'] },
+  { fullName: 'Abdullayev Shohrux', specialty: 'Ingliz tili', category: 'Ikkinchi', experienceYears: 4, schoolNumber: 5, subjects: ['Ingliz tili'], weeklyHours: 24, status: 'active', classes: ['5-B', '6-B', '7-B'] },
+  { fullName: 'Norqulova Zuhra', specialty: 'Ona tili', category: 'Birinchi', experienceYears: 10, schoolNumber: 15, subjects: ['Ona tili', 'Adabiyot'], weeklyHours: 30, status: 'active', classes: ['8-A', '9-A', '10-A'] },
+  { fullName: 'Ergashev Bekzod', specialty: 'Fizika', category: 'Oliy', experienceYears: 18, schoolNumber: 22, subjects: ['Fizika'], weeklyHours: 34, status: 'active', classes: ['9-A', '10-A', '11-A'] },
+  { fullName: 'Xolmatova Sevara', specialty: 'Biologiya', category: 'Birinchi', experienceYears: 9, schoolNumber: 1, subjects: ['Biologiya'], weeklyHours: 22, status: 'vacation', classes: ['7-A', '8-B'] },
+  { fullName: 'Tursunov Jamshid', specialty: 'Informatika', category: 'Ikkinchi', experienceYears: 3, schoolNumber: 3, subjects: ['Informatika'], weeklyHours: 16, status: 'active', classes: ['8-A', '9-A'] },
+  { fullName: 'Rahimova Madina', specialty: 'Tarix', category: 'Oliy', experienceYears: 13, schoolNumber: 14, subjects: ['Tarix'], weeklyHours: 26, status: 'active', classes: ['8-A', '9-A', '10-B'] },
+  { fullName: 'Sattorov Umid', specialty: 'Matematika', category: 'Birinchi', experienceYears: 8, schoolNumber: 18, subjects: ['Matematika', 'Algebra'], weeklyHours: 32, status: 'active', classes: ['9-A', '10-A', '11-A'] },
+  { fullName: 'Olimova Shahnoza', specialty: 'Ingliz tili', category: 'Oliy', experienceYears: 11, schoolNumber: 28, subjects: ['Ingliz tili'], weeklyHours: 28, status: 'active', classes: ['7-A', '8-A', '9-A'] },
+  { fullName: 'Boqiyev Farhod', specialty: 'Kimyo', category: 'Ikkinchi', experienceYears: 5, schoolNumber: 12, subjects: ['Kimyo'], weeklyHours: 18, status: 'active', classes: ['8-B', '9-B'] },
+  { fullName: 'Mirzayeva Gulnora', specialty: 'Ona tili', category: 'Birinchi', experienceYears: 14, schoolNumber: 25, subjects: ['Ona tili'], weeklyHours: 24, status: 'active', classes: ['5-A', '6-A', '7-A'] },
+  { fullName: 'Hasanov Aziz', specialty: 'Jismoniy tarbiya', category: 'Ikkinchi', experienceYears: 6, schoolNumber: 20, subjects: ['Jismoniy tarbiya'], weeklyHours: 20, status: 'inactive', classes: ['5-A', '6-A'] },
+  { fullName: 'Qodirova Lola', specialty: 'Geografiya', category: 'Oliy', experienceYears: 17, schoolNumber: 8, subjects: ['Geografiya'], weeklyHours: 22, status: 'active', classes: ['8-A', '9-A', '10-A'] },
+  { fullName: 'Norboyev Doniyor', specialty: 'Fizika', category: 'Birinchi', experienceYears: 9, schoolNumber: 10, subjects: ['Fizika', 'Astronomiya'], weeklyHours: 30, status: 'active', classes: ['10-A', '11-A', '11-B'] },
+  { fullName: 'Saidova Dilbar', specialty: 'Biologiya', category: 'Oliy', experienceYears: 12, schoolNumber: 7, subjects: ['Biologiya'], weeklyHours: 26, status: 'active', classes: ['8-A', '9-A', '10-A'] },
+]
+
+export const teachers: Teacher[] = [
+  ...handcraftedTeachers,
+  ...teacherSeeds.map((seed, index) => ({
+    id: `t${index + 9}`,
+    fullName: seed.fullName,
+    phone: `+998 9${(index % 9) + 0} ${String(100 + index).padStart(3, '0')} ${String(200 + index).padStart(3, '0')} ${String(300 + index).padStart(3, '0')}`,
+    specialty: seed.specialty,
+    category: seed.category,
+    experienceYears: seed.experienceYears,
+    schoolId: `school-${seed.schoolNumber}`,
+    schoolName: `${seed.schoolNumber}-maktab`,
+    subjects: seed.subjects,
+    weeklyHours: seed.weeklyHours,
+    status: seed.status,
+    classes: seed.classes,
+    schools: [`${seed.schoolNumber}-maktab`],
+  })),
 ]
 
 export const subjects: SubjectStat[] = [
@@ -317,7 +379,22 @@ export async function fetchTeacher(id: string) {
 
 export async function fetchSubjects() {
   await delay(300)
-  return subjects
+  return [...subjects]
+}
+
+export async function createSubject(name: string) {
+  await delay(250)
+  const created: SubjectStat = {
+    id: `s${Date.now()}`,
+    name: name.trim(),
+    teachersCount: 0,
+    totalHours: 0,
+    vacantHours: 0,
+    overloadHours: 0,
+    topSchool: '—',
+  }
+  subjects.push(created)
+  return created
 }
 
 export async function fetchDashboard() {

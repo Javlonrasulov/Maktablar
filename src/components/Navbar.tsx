@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Bell, Menu, Moon, Search, Sun } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { Bell, Check, ChevronDown, Menu, Moon, Search, Sun } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { GlassButton } from '@/design-system'
 import { languages, setAppLanguage, type AppLanguage } from '@/i18n'
 import { useTheme } from '@/hooks/useTheme'
 import { cn } from '@/lib/utils'
+import { FontSizeControl } from './FontSizeControl'
+import { TextColorPicker } from './TextColorPicker'
 import { useNavItems, NavItemLink } from './navConfig'
 
 interface NavbarProps {
@@ -26,6 +28,10 @@ export function Navbar({
   const { theme, toggleTheme } = useTheme()
   const items = useNavItems().slice(0, 5)
   const [scrolled, setScrolled] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
+  const langRef = useRef<HTMLDivElement>(null)
+  const currentLang =
+    languages.find((lang) => lang.code === i18n.language) ?? languages[0]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -45,18 +51,28 @@ export function Navbar({
     return () => window.removeEventListener('keydown', onKey)
   }, [onOpenSearch])
 
+  useEffect(() => {
+    if (!langOpen) return
+    const onPointer = (e: MouseEvent) => {
+      if (!langRef.current?.contains(e.target as Node)) setLangOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLangOpen(false)
+    }
+    document.addEventListener('mousedown', onPointer)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onPointer)
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [langOpen])
+
   return (
     <div className="sticky top-0 z-40 w-full px-3 pt-3 md:px-5 md:pt-4 xl:px-6">
-      <motion.header
-        animate={{
-          scale: scrolled ? 0.995 : 1,
-          paddingTop: scrolled ? 8 : 12,
-          paddingBottom: scrolled ? 8 : 12,
-        }}
-        transition={{ duration: 0.25 }}
+      <header
         className={cn(
-          'glass-strong flex w-full items-center gap-3 rounded-[22px] px-3 md:px-5',
-          scrolled && 'shadow-[0_16px_40px_rgba(0,0,0,0.25)]',
+          'glass-strong flex w-full items-center gap-3 rounded-[22px] px-3 py-3 md:px-5',
+          scrolled && 'shadow-[0_16px_40px_rgba(0,0,0,0.18)]',
         )}
       >
         <GlassButton
@@ -117,6 +133,10 @@ export function Navbar({
             title={theme === 'dark' ? t('common.themeLight') : t('common.themeDark')}
           />
 
+          <TextColorPicker />
+
+          <FontSizeControl className="hidden lg:flex" />
+
           <div className="relative">
             <GlassButton
               variant="ghost"
@@ -132,20 +152,63 @@ export function Navbar({
             ) : null}
           </div>
 
-          <select
-            aria-label={t('common.language')}
-            className="h-9 max-w-[120px] rounded-[16px] border border-line bg-fill px-2 text-xs text-text-secondary outline-none md:max-w-none"
-            value={i18n.language}
-            onChange={(e) => setAppLanguage(e.target.value as AppLanguage)}
-          >
-            {languages.map((lang) => (
-              <option key={lang.code} value={lang.code} className="bg-bg-base text-text-primary">
-                {lang.label}
-              </option>
-            ))}
-          </select>
+          <div className="relative" ref={langRef}>
+            <GlassButton
+              variant="glass"
+              size="sm"
+              className="max-w-[140px] gap-1 px-2.5 text-xs text-text-secondary md:max-w-none"
+              aria-label={t('common.language')}
+              aria-haspopup="listbox"
+              aria-expanded={langOpen}
+              onClick={() => setLangOpen((open) => !open)}
+            >
+              <span className="truncate">{currentLang.label}</span>
+              <ChevronDown
+                size={14}
+                className={cn('shrink-0 transition-transform', langOpen && 'rotate-180')}
+              />
+            </GlassButton>
+
+            <AnimatePresence>
+              {langOpen ? (
+                <motion.ul
+                  role="listbox"
+                  aria-label={t('common.language')}
+                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                  transition={{ duration: 0.18 }}
+                  className="glass-strong absolute right-0 top-[calc(100%+8px)] z-50 min-w-[180px] overflow-hidden rounded-[18px] p-1.5"
+                >
+                  {languages.map((lang) => {
+                    const selected = lang.code === currentLang.code
+                    return (
+                      <li key={lang.code} role="option" aria-selected={selected}>
+                        <button
+                          type="button"
+                          className={cn(
+                            'flex w-full items-center justify-between gap-3 rounded-[14px] px-3 py-2 text-left text-xs transition-colors',
+                            selected
+                              ? 'bg-accent text-white'
+                              : 'text-text-secondary hover:bg-fill hover:text-text-primary',
+                          )}
+                          onClick={() => {
+                            setAppLanguage(lang.code as AppLanguage)
+                            setLangOpen(false)
+                          }}
+                        >
+                          <span>{lang.label}</span>
+                          {selected ? <Check size={14} className="shrink-0 opacity-90" /> : null}
+                        </button>
+                      </li>
+                    )
+                  })}
+                </motion.ul>
+              ) : null}
+            </AnimatePresence>
+          </div>
         </div>
-      </motion.header>
+      </header>
     </div>
   )
 }

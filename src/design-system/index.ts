@@ -1,6 +1,7 @@
 export { GlassButton } from './GlassButton'
 export { GlassCard } from './GlassCard'
 export { GlassInput } from './GlassInput'
+export { GlassSelect } from './GlassSelect'
 export { GlassModal } from './GlassModal'
 export { GlassDrawer } from './GlassDrawer'
 export { Skeleton, PageSkeleton } from './Skeleton'

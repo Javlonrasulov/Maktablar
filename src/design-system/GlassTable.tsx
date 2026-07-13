@@ -4,9 +4,10 @@ import { cn } from '@/lib/utils'
 interface GlassTableProps<T> {
   table: TanTable<T>
   className?: string
+  onRowClick?: (row: T) => void
 }
 
-export function GlassTable<T>({ table, className }: GlassTableProps<T>) {
+export function GlassTable<T>({ table, className, onRowClick }: GlassTableProps<T>) {
   return (
     <div className={cn('glass overflow-hidden rounded-[22px]', className)}>
       <div className="overflow-x-auto">
@@ -28,7 +29,11 @@ export function GlassTable<T>({ table, className }: GlassTableProps<T>) {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-b border-line transition hover:bg-fill"
+                className={cn(
+                  'border-b border-line transition hover:bg-fill',
+                  onRowClick && 'cursor-pointer',
+                )}
+                onClick={onRowClick ? () => onRowClick(row.original) : undefined}
               >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="px-4 py-3 text-text-primary">

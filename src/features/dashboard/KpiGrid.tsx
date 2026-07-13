@@ -4,19 +4,20 @@ import { AnimatedCounter, GlassCard } from '@/design-system'
 import type { DashboardKpis } from '@/services/types'
 
 const kpiMeta = [
-  { key: 'totalSchools', icon: Building2, field: 'totalSchools', numeric: true },
-  { key: 'totalTeachers', icon: Users, field: 'totalTeachers', numeric: true },
-  { key: 'totalStudents', icon: GraduationCap, field: 'totalStudents', numeric: true },
-  { key: 'totalWeeklyHours', icon: Clock3, field: 'totalWeeklyHours', numeric: true },
-  { key: 'vacantHours', icon: AlertTriangle, field: 'vacantHours', numeric: true },
-  { key: 'mostLoadedSubject', icon: BookOpen, field: 'mostLoadedSubject', numeric: false },
-  { key: 'leastLoadedSubject', icon: BookOpen, field: 'leastLoadedSubject', numeric: false },
-  { key: 'updatedToday', icon: RefreshCw, field: 'updatedToday', numeric: true },
-  { key: 'noDataSchools', icon: Ban, field: 'noDataSchools', numeric: true },
+  { key: 'totalSchools', icon: Building2, field: 'totalSchools', numeric: true, hours: false },
+  { key: 'totalTeachers', icon: Users, field: 'totalTeachers', numeric: true, hours: false },
+  { key: 'totalStudents', icon: GraduationCap, field: 'totalStudents', numeric: true, hours: false },
+  { key: 'totalWeeklyHours', icon: Clock3, field: 'totalWeeklyHours', numeric: true, hours: true },
+  { key: 'vacantHours', icon: AlertTriangle, field: 'vacantHours', numeric: true, hours: true },
+  { key: 'mostLoadedSubject', icon: BookOpen, field: 'mostLoadedSubject', numeric: false, hours: false },
+  { key: 'leastLoadedSubject', icon: BookOpen, field: 'leastLoadedSubject', numeric: false, hours: false },
+  { key: 'updatedToday', icon: RefreshCw, field: 'updatedToday', numeric: true, hours: false },
+  { key: 'noDataSchools', icon: Ban, field: 'noDataSchools', numeric: true, hours: false },
 ] as const
 
 export function KpiGrid({ kpis }: { kpis: DashboardKpis }) {
   const { t } = useTranslation()
+  const hoursLabel = t('common.hours')
 
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
@@ -35,6 +36,7 @@ export function KpiGrid({ kpis }: { kpis: DashboardKpis }) {
             {item.numeric ? (
               <AnimatedCounter
                 value={value as number}
+                suffix={item.hours ? ` ${hoursLabel}` : ''}
                 className="font-display text-2xl font-semibold text-text-primary md:text-3xl"
               />
             ) : (

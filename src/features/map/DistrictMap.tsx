@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +14,9 @@ const statusColor: Record<SchoolStatus, string> = {
   problem: '#f87171',
 }
 
+const DEFAULT_CENTER: [number, number] = [40.158, 65.375]
+const DEFAULT_ZOOM = 12
+
 function pinIcon(status: SchoolStatus) {
   const color = statusColor[status]
   return L.divIcon({
@@ -23,19 +27,44 @@ function pinIcon(status: SchoolStatus) {
   })
 }
 
+function MapViewSync({ center, zoom }: { center: [number, number]; zoom: number }) {
+  const map = useMap()
+  useEffect(() => {
+    map.setView(center, zoom)
+  }, [map, center, zoom])
+  return null
+}
+
 interface DistrictMapProps {
   schools: School[]
   height?: number
   title?: string
+  center?: [number, number]
+  zoom?: number
+  showLegend?: boolean
+  showDetailsLink?: boolean
 }
 
-export function DistrictMap({ schools, height = 420, title }: DistrictMapProps) {
+export function DistrictMap({
+  schools,
+  height = 420,
+  title,
+  center,
+  zoom,
+  showLegend = true,
+  showDetailsLink = true,
+}: DistrictMapProps) {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const isLight = theme === 'light'
 
+  const mapCenter =
+    center ??
+    (schools.length === 1 ? ([schools[0].lat, schools[0].lng] as [number, number]) : DEFAULT_CENTER)
+  const mapZoom = zoom ?? (schools.length === 1 ? 14 : DEFAULT_ZOOM)
+
   return (
-    <GlassCard className="overflow-hidden p-0">
+    <GlassCard className="overflow-hidden p-0" hover={false}>
       {title ? (
         <div className="border-b border-line px-5 py-4">
           <h3 className="font-display text-base">{title}</h3>
@@ -43,12 +72,13 @@ export function DistrictMap({ schools, height = 420, title }: DistrictMapProps) 
       ) : null}
       <div style={{ height }} className="relative w-full">
         <MapContainer
-          center={[40.158, 65.375]}
-          zoom={12}
+          center={mapCenter}
+          zoom={mapZoom}
           scrollWheelZoom={false}
           className="h-full w-full rounded-[22px]"
           style={{ background: isLight ? '#e2e8f0' : '#0b1220' }}
         >
+          <MapViewSync center={mapCenter} zoom={mapZoom} />
           <TileLayer
             key={theme}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
@@ -72,23 +102,27 @@ export function DistrictMap({ schools, height = 420, title }: DistrictMapProps) 
                   <p>
                     {t('common.teachers')}: {school.teachersCount}
                   </p>
-                  <Link to={`/schools/${school.id}`} className="text-sky-600 underline">
-                    {t('common.details')}
-                  </Link>
+                  {showDetailsLink ? (
+                    <Link to={`/schools/${school.id}`} className="text-sky-600 underline">
+                      {t('common.details')}
+                    </Link>
+                  ) : null}
                 </div>
               </Popup>
             </Marker>
           ))}
         </MapContainer>
       </div>
-      <div className="flex flex-wrap gap-3 border-t border-line px-5 py-3 text-xs text-text-secondary">
-        {(Object.keys(statusColor) as SchoolStatus[]).map((status) => (
-          <span key={status} className="inline-flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full" style={{ background: statusColor[status] }} />
-            {t(`status.${status}`)}
-          </span>
-        ))}
-      </div>
+      {showLegend ? (
+        <div className="flex flex-wrap gap-3 border-t border-line px-5 py-3 text-xs text-text-secondary">
+          {(Object.keys(statusColor) as SchoolStatus[]).map((status) => (
+            <span key={status} className="inline-flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: statusColor[status] }} />
+              {t(`status.${status}`)}
+            </span>
+          ))}
+        </div>
+      ) : null}
     </GlassCard>
   )
 }

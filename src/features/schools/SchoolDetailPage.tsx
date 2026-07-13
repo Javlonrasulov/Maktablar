@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import {
+  ArrowLeft,
   BookOpen,
   CalendarDays,
   ClipboardList,
@@ -11,6 +12,8 @@ import {
   Briefcase,
 } from 'lucide-react'
 import { GlassButton, GlassCard, PageSkeleton } from '@/design-system'
+import { DistrictMap } from '@/features/map/DistrictMap'
+import { formatHours } from '@/lib/utils'
 import { fetchSchool } from '@/services/mockApi'
 
 const sections = [
@@ -44,10 +47,14 @@ export function SchoolDetailPage() {
   }
 
   return (
-    <div className="space-y-6 pb-4">
-      <Link to="/schools" className="text-sm text-accent hover:underline">
-        ← {t('common.back')}
-      </Link>
+    <div className="flex flex-col gap-6 pb-4">
+      <div>
+        <Link to="/schools" className="inline-flex">
+          <GlassButton size="sm" icon={<ArrowLeft size={16} strokeWidth={1.75} />}>
+            {t('common.back')}
+          </GlassButton>
+        </Link>
+      </div>
 
       <GlassCard>
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -70,9 +77,18 @@ export function SchoolDetailPage() {
           <Metric label={t('common.teachers')} value={data.teachersCount} />
           <Metric label={t('common.students')} value={data.studentsCount} />
           <Metric label={t('common.subjects')} value={data.subjectsCount} />
-          <Metric label={t('schools.weeklyLoad')} value={`${data.weeklyHours}h`} />
+          <Metric label={t('schools.weeklyLoad')} value={formatHours(data.weeklyHours, t('common.hours'))} />
         </div>
       </GlassCard>
+
+      <DistrictMap
+        schools={[data]}
+        height={360}
+        title={t('schools.location')}
+        center={[data.lat, data.lng]}
+        zoom={14}
+        showDetailsLink={false}
+      />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {sections.map((section) => {

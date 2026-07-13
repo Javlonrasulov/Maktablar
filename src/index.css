@@ -121,6 +121,12 @@
     box-sizing: border-box;
   }
 
+  html {
+    font-size: var(--app-font-size, 15px);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   html,
   body,
   #root {
@@ -136,6 +142,10 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  html.text-color-override {
+    color: var(--theme-text-primary);
   }
 
   #root {

@@ -1,8 +1,10 @@
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { ArrowLeft } from 'lucide-react'
 import ReactECharts from 'echarts-for-react'
 import { GlassButton, GlassCard, PageSkeleton } from '@/design-system'
+import { formatHours } from '@/lib/utils'
 import { fetchTeacher } from '@/services/mockApi'
 
 export function TeacherProfilePage() {
@@ -48,10 +50,14 @@ export function TeacherProfilePage() {
   }
 
   return (
-    <div className="space-y-6 pb-4">
-      <Link to="/teachers" className="text-sm text-accent hover:underline">
-        ← {t('common.back')}
-      </Link>
+    <div className="flex flex-col gap-6 pb-4">
+      <div>
+        <Link to="/teachers" className="inline-flex">
+          <GlassButton size="sm" icon={<ArrowLeft size={16} strokeWidth={1.75} />}>
+            {t('common.back')}
+          </GlassButton>
+        </Link>
+      </div>
 
       <GlassCard>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -78,7 +84,7 @@ export function TeacherProfilePage() {
           <dl className="space-y-2 text-sm">
             <Info label={t('common.phone')} value={data.phone} />
             <Info label={t('teachers.school')} value={data.schoolName} />
-            <Info label={t('teachers.weeklyHours')} value={`${data.weeklyHours}h`} />
+            <Info label={t('teachers.weeklyHours')} value={formatHours(data.weeklyHours, t('common.hours'))} />
             <Info label={t('common.status')} value={t(`status.${data.status}`)} />
           </dl>
         </GlassCard>
@@ -119,9 +125,9 @@ export function TeacherProfilePage() {
       <GlassCard>
         <h2 className="mb-2 font-display text-base">{t('teachers.history')}</h2>
         <ul className="space-y-2 text-sm text-text-secondary">
-          <li>2024 — {data.schoolName}, {data.weeklyHours - 2}h</li>
-          <li>2023 — {data.schoolName}, {Math.max(16, data.weeklyHours - 4)}h</li>
-          <li>2022 — {data.schools[0]}, {Math.max(14, data.weeklyHours - 6)}h</li>
+          <li>2024 — {data.schoolName}, {formatHours(data.weeklyHours - 2, t('common.hours'))}</li>
+          <li>2023 — {data.schoolName}, {formatHours(Math.max(16, data.weeklyHours - 4), t('common.hours'))}</li>
+          <li>2022 — {data.schools[0]}, {formatHours(Math.max(14, data.weeklyHours - 6), t('common.hours'))}</li>
         </ul>
       </GlassCard>
     </div>

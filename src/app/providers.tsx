@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from '@/hooks/useTheme'
+import { UiPreferencesProvider } from '@/hooks/useUiPreferences'
 import { router } from './router'
 
 const queryClient = new QueryClient({
@@ -15,9 +16,11 @@ const queryClient = new QueryClient({
 export function AppProviders() {
   return (
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <UiPreferencesProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </UiPreferencesProvider>
     </ThemeProvider>
   )
 }
