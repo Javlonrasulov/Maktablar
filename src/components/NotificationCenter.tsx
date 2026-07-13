@@ -20,7 +20,7 @@ export function NotificationCenter({ open, onClose, items }: NotificationCenterP
           {items.map((item) => (
             <li
               key={item.id}
-              className={`rounded-[18px] border border-white/10 bg-white/5 p-3 ${item.read ? 'opacity-70' : ''}`}
+              className={`rounded-[18px] border border-line bg-fill p-3 ${item.read ? 'opacity-70' : ''}`}
             >
               <p className="text-sm text-text-primary">
                 {t(item.messageKey, { school: item.schoolNumber })}

@@ -95,7 +95,7 @@ export function TeacherProfilePage() {
           <h3 className="mb-2 mt-5 text-sm text-text-muted">{t('teachers.classes')}</h3>
           <div className="flex flex-wrap gap-2">
             {data.classes.map((c) => (
-              <span key={c} className="rounded-[14px] bg-white/5 px-3 py-1 text-sm">
+              <span key={c} className="rounded-[14px] bg-fill px-3 py-1 text-sm">
                 {c}
               </span>
             ))}
@@ -103,7 +103,7 @@ export function TeacherProfilePage() {
           <h3 className="mb-2 mt-5 text-sm text-text-muted">{t('teachers.schools')}</h3>
           <div className="flex flex-wrap gap-2">
             {data.schools.map((s) => (
-              <span key={s} className="rounded-[14px] bg-white/5 px-3 py-1 text-sm">
+              <span key={s} className="rounded-[14px] bg-fill px-3 py-1 text-sm">
                 {s}
               </span>
             ))}
@@ -130,7 +130,7 @@ export function TeacherProfilePage() {
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between gap-3 border-b border-white/5 py-2">
+    <div className="flex justify-between gap-3 border-b border-line py-2">
       <dt className="text-text-muted">{label}</dt>
       <dd>{value}</dd>
     </div>

@@ -52,7 +52,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                   key={s.id}
                   to={`/schools/${s.id}`}
                   onClick={onClose}
-                  className="block rounded-[16px] px-3 py-2 hover:bg-white/5"
+                  className="block rounded-[16px] px-3 py-2 hover:bg-fill"
                 >
                   <p className="text-sm font-medium">{s.name}</p>
                   <p className="text-xs text-text-muted">{s.director} · {s.phone}</p>
@@ -71,7 +71,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                   key={teacher.id}
                   to={`/teachers/${teacher.id}`}
                   onClick={onClose}
-                  className="block rounded-[16px] px-3 py-2 hover:bg-white/5"
+                  className="block rounded-[16px] px-3 py-2 hover:bg-fill"
                 >
                   <p className="text-sm font-medium">{teacher.fullName}</p>
                   <p className="text-xs text-text-muted">
@@ -92,7 +92,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                   key={subject.id}
                   to="/subjects"
                   onClick={onClose}
-                  className="block rounded-[16px] px-3 py-2 hover:bg-white/5"
+                  className="block rounded-[16px] px-3 py-2 hover:bg-fill"
                 >
                   <p className="text-sm font-medium">{subject.name}</p>
                   <p className="text-xs text-text-muted">

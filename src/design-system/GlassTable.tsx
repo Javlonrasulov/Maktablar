@@ -13,7 +13,7 @@ export function GlassTable<T>({ table, className }: GlassTableProps<T>) {
         <table className="w-full min-w-[640px] border-collapse text-left text-sm">
           <thead>
             {table.getHeaderGroups().map((hg) => (
-              <tr key={hg.id} className="border-b border-white/10 bg-white/5">
+              <tr key={hg.id} className="border-b border-line bg-fill">
                 {hg.headers.map((header) => (
                   <th key={header.id} className="px-4 py-3 font-medium text-text-secondary">
                     {header.isPlaceholder
@@ -28,7 +28,7 @@ export function GlassTable<T>({ table, className }: GlassTableProps<T>) {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-b border-white/5 transition hover:bg-white/5"
+                className="border-b border-line transition hover:bg-fill"
               >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="px-4 py-3 text-text-primary">

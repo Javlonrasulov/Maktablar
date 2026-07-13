@@ -92,7 +92,7 @@ export function SchoolsPage() {
                 </div>
                 <div className="min-w-0">
                   <h2 className="font-display text-lg font-semibold">{school.name}</h2>
-                  <span className="mt-1 inline-flex rounded-full bg-white/5 px-2 py-0.5 text-xs text-text-secondary ring-1 ring-white/10">
+                  <span className="mt-1 inline-flex rounded-full bg-fill px-2 py-0.5 text-xs text-text-secondary ring-1 ring-line">
                     {t(`status.${school.status}`)}
                   </span>
                 </div>
@@ -106,19 +106,19 @@ export function SchoolsPage() {
                 </p>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-                <div className="rounded-[16px] bg-white/5 p-3">
+                <div className="rounded-[16px] bg-fill p-3">
                   <p className="text-xs text-text-muted">{t('common.teachers')}</p>
                   <p className="font-semibold">{school.teachersCount}</p>
                 </div>
-                <div className="rounded-[16px] bg-white/5 p-3">
+                <div className="rounded-[16px] bg-fill p-3">
                   <p className="text-xs text-text-muted">{t('common.students')}</p>
                   <p className="font-semibold">{school.studentsCount}</p>
                 </div>
-                <div className="rounded-[16px] bg-white/5 p-3">
+                <div className="rounded-[16px] bg-fill p-3">
                   <p className="text-xs text-text-muted">{t('common.subjects')}</p>
                   <p className="font-semibold">{school.subjectsCount}</p>
                 </div>
-                <div className="rounded-[16px] bg-white/5 p-3">
+                <div className="rounded-[16px] bg-fill p-3">
                   <p className="text-xs text-text-muted">{t('schools.weeklyLoad')}</p>
                   <p className="font-semibold">{school.weeklyHours}h</p>
                 </div>

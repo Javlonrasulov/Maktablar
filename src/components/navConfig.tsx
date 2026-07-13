@@ -55,7 +55,7 @@ export function NavItemLink({
         'group relative flex min-h-11 items-center gap-3 rounded-[18px] px-3 py-2.5 text-sm transition-all duration-300',
         active
           ? 'active-glow bg-accent/15 text-accent'
-          : 'text-text-secondary hover:bg-white/5 hover:text-text-primary',
+          : 'text-text-secondary hover:bg-fill hover:text-text-primary',
         collapsed && 'justify-center px-2',
       )}
     >

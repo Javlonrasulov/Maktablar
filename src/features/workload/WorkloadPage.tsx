@@ -52,7 +52,7 @@ export function WorkloadPage() {
                   <li key={teacher.id}>
                     <Link
                       to={`/teachers/${teacher.id}`}
-                      className="flex items-center justify-between rounded-[16px] bg-white/5 px-3 py-2 text-sm hover:bg-white/8"
+                      className="flex items-center justify-between rounded-[16px] bg-fill px-3 py-2 text-sm hover:bg-fill-strong"
                     >
                       <span>{teacher.fullName}</span>
                       <span className="text-accent">{teacher.weeklyHours}h</span>

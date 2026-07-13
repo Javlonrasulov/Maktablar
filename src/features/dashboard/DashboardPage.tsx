@@ -34,7 +34,7 @@ export function DashboardPage() {
             <h3 className="mb-3 font-display text-base">{t('dashboard.notificationsTitle')}</h3>
             <ul className="space-y-2">
               {data.notifications.slice(0, 4).map((n) => (
-                <li key={n.id} className="rounded-[16px] bg-white/5 px-3 py-2 text-sm text-text-secondary">
+                <li key={n.id} className="rounded-[16px] bg-fill px-3 py-2 text-sm text-text-secondary">
                   {t(n.messageKey, { school: n.schoolNumber })}
                 </li>
               ))}

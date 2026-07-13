@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Bell, Menu, Search } from 'lucide-react'
+import { Bell, Menu, Moon, Search, Sun } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { GlassButton } from '@/design-system'
 import { languages, setAppLanguage, type AppLanguage } from '@/i18n'
+import { useTheme } from '@/hooks/useTheme'
 import { cn } from '@/lib/utils'
 import { useNavItems, NavItemLink } from './navConfig'
 
@@ -22,6 +23,7 @@ export function Navbar({
   unread,
 }: NavbarProps) {
   const { t, i18n } = useTranslation()
+  const { theme, toggleTheme } = useTheme()
   const items = useNavItems().slice(0, 5)
   const [scrolled, setScrolled] = useState(false)
 
@@ -44,17 +46,17 @@ export function Navbar({
   }, [onOpenSearch])
 
   return (
-    <div className="sticky top-0 z-40 px-3 pt-3 md:px-5 md:pt-4">
+    <div className="sticky top-0 z-40 w-full px-3 pt-3 md:px-5 md:pt-4 xl:px-6">
       <motion.header
         animate={{
-          scale: scrolled ? 0.985 : 1,
+          scale: scrolled ? 0.995 : 1,
           paddingTop: scrolled ? 8 : 12,
           paddingBottom: scrolled ? 8 : 12,
         }}
         transition={{ duration: 0.25 }}
         className={cn(
-          'glass-strong mx-auto flex max-w-[1800px] items-center gap-3 rounded-[22px] px-3 md:px-5',
-          scrolled && 'shadow-[0_16px_40px_rgba(0,0,0,0.45)]',
+          'glass-strong flex w-full items-center gap-3 rounded-[22px] px-3 md:px-5',
+          scrolled && 'shadow-[0_16px_40px_rgba(0,0,0,0.25)]',
         )}
       >
         <GlassButton
@@ -93,7 +95,7 @@ export function Navbar({
             onClick={onOpenSearch}
           >
             <span className="hidden md:inline">{t('nav.search')}</span>
-            <kbd className="ml-1 hidden rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] text-text-muted lg:inline">
+            <kbd className="ml-1 hidden rounded-md bg-fill-strong px-1.5 py-0.5 text-[10px] text-text-muted lg:inline">
               ⌘K
             </kbd>
           </GlassButton>
@@ -106,6 +108,15 @@ export function Navbar({
             aria-label={t('nav.search')}
           />
 
+          <GlassButton
+            variant="ghost"
+            size="sm"
+            icon={theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            onClick={toggleTheme}
+            aria-label={t('common.theme')}
+            title={theme === 'dark' ? t('common.themeLight') : t('common.themeDark')}
+          />
+
           <div className="relative">
             <GlassButton
               variant="ghost"
@@ -115,7 +126,7 @@ export function Navbar({
               aria-label={t('nav.notifications')}
             />
             {unread > 0 ? (
-              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-bg-deep">
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-white">
                 {unread}
               </span>
             ) : null}
@@ -123,12 +134,12 @@ export function Navbar({
 
           <select
             aria-label={t('common.language')}
-            className="h-9 max-w-[120px] rounded-[16px] border border-white/10 bg-white/5 px-2 text-xs text-text-secondary outline-none md:max-w-none"
+            className="h-9 max-w-[120px] rounded-[16px] border border-line bg-fill px-2 text-xs text-text-secondary outline-none md:max-w-none"
             value={i18n.language}
             onChange={(e) => setAppLanguage(e.target.value as AppLanguage)}
           >
             {languages.map((lang) => (
-              <option key={lang.code} value={lang.code} className="bg-bg-base">
+              <option key={lang.code} value={lang.code} className="bg-bg-base text-text-primary">
                 {lang.label}
               </option>
             ))}

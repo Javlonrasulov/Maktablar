@@ -112,7 +112,7 @@ export function ReportsPage() {
         <h2 className="mb-3 font-display text-base">{t('reports.schoolsReport')}</h2>
         <div className="space-y-2 text-sm">
           {schools.map((s) => (
-            <div key={s.id} className="flex flex-wrap justify-between gap-2 border-b border-white/5 py-2 print:border-black/20">
+            <div key={s.id} className="flex flex-wrap justify-between gap-2 border-b border-line py-2 print:border-black/20">
               <span>{s.name}</span>
               <span>
                 {s.teachersCount} / {s.studentsCount} / {s.weeklyHours}h

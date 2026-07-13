@@ -18,7 +18,7 @@ export function GlassCard({
 }: GlassCardProps) {
   const classes = cn(
     'glass rounded-[22px] p-5 md:p-6',
-    hover && 'transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_rgba(0,0,0,0.4)]',
+    hover && 'transition-transform duration-300 hover:-translate-y-1 hover:shadow-[var(--theme-shadow-float)]',
     className,
   )
 

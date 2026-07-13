@@ -14,9 +14,9 @@ type GlassButtonProps = HTMLMotionProps<'button'> & {
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-accent/90 text-bg-deep hover:bg-accent shadow-[0_0_24px_rgba(56,189,248,0.35)] border-transparent',
-  ghost: 'bg-transparent hover:bg-white/5 border-transparent text-text-secondary hover:text-text-primary',
-  glass: 'glass text-text-primary hover:bg-white/10',
+    'bg-accent/90 text-white hover:bg-accent shadow-[0_0_24px_rgba(56,189,248,0.35)] border-transparent',
+  ghost: 'bg-transparent hover:bg-fill border-transparent text-text-secondary hover:text-text-primary',
+  glass: 'glass text-text-primary hover:bg-fill-strong',
   danger: 'bg-danger/20 text-danger border-danger/30 hover:bg-danger/30',
 }
 

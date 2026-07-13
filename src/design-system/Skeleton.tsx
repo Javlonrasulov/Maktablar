@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn('shimmer rounded-[22px] bg-white/5', className)} />
+  return <div className={cn('shimmer rounded-[22px] bg-fill', className)} />
 }
 
 export function PageSkeleton() {

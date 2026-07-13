@@ -3,6 +3,7 @@ import L from 'leaflet'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { GlassCard } from '@/design-system'
+import { useTheme } from '@/hooks/useTheme'
 import type { School, SchoolStatus } from '@/services/types'
 
 const statusColor: Record<SchoolStatus, string> = {
@@ -30,11 +31,13 @@ interface DistrictMapProps {
 
 export function DistrictMap({ schools, height = 420, title }: DistrictMapProps) {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
 
   return (
     <GlassCard className="overflow-hidden p-0">
       {title ? (
-        <div className="border-b border-white/10 px-5 py-4">
+        <div className="border-b border-line px-5 py-4">
           <h3 className="font-display text-base">{title}</h3>
         </div>
       ) : null}
@@ -44,11 +47,16 @@ export function DistrictMap({ schools, height = 420, title }: DistrictMapProps) 
           zoom={12}
           scrollWheelZoom={false}
           className="h-full w-full rounded-[22px]"
-          style={{ background: '#0b1220' }}
+          style={{ background: isLight ? '#e2e8f0' : '#0b1220' }}
         >
           <TileLayer
+            key={theme}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url={
+              isLight
+                ? 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+            }
           />
           {schools.map((school) => (
             <Marker key={school.id} position={[school.lat, school.lng]} icon={pinIcon(school.status)}>
@@ -73,7 +81,7 @@ export function DistrictMap({ schools, height = 420, title }: DistrictMapProps) 
           ))}
         </MapContainer>
       </div>
-      <div className="flex flex-wrap gap-3 border-t border-white/10 px-5 py-3 text-xs text-text-secondary">
+      <div className="flex flex-wrap gap-3 border-t border-line px-5 py-3 text-xs text-text-secondary">
         {(Object.keys(statusColor) as SchoolStatus[]).map((status) => (
           <span key={status} className="inline-flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full" style={{ background: statusColor[status] }} />

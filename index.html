@@ -1,10 +1,20 @@
 <!doctype html>
-<html lang="uz-Cyrl">
+<html lang="uz-Cyrl" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Navbahor Education Intelligence</title>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('navbahor-theme');
+          document.documentElement.setAttribute('data-theme', t === 'dark' || t === 'light' ? t : 'light');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

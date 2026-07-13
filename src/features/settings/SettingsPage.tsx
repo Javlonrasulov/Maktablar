@@ -59,7 +59,7 @@ export function SettingsPage() {
 
         <GlassCard>
           <h2 className="mb-4 font-display text-base">{t('settings.logo')}</h2>
-          <div className="flex h-32 items-center justify-center rounded-[18px] border border-dashed border-white/15 bg-white/5">
+          <div className="flex h-32 items-center justify-center rounded-[18px] border border-dashed border-line bg-fill">
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/15 font-display text-xl text-accent">
               NE
             </div>
@@ -81,7 +81,7 @@ function Section({ title, items }: { title: string; items: string[] }) {
       <p className="mb-2 text-sm text-text-muted">{title}</p>
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
-          <span key={item} className="rounded-full bg-white/5 px-3 py-1 text-xs ring-1 ring-white/10">
+          <span key={item} className="rounded-full bg-fill px-3 py-1 text-xs ring-1 ring-line">
             {item}
           </span>
         ))}

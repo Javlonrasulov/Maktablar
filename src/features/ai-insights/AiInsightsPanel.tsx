@@ -28,7 +28,7 @@ export function AiInsightsPanel({ insights }: { insights: AiInsight[] }) {
         {insights.map((item) => {
           const Icon = icons[item.severity]
           return (
-            <li key={item.id} className="rounded-[18px] border border-white/10 bg-white/5 p-3">
+            <li key={item.id} className="rounded-[18px] border border-line bg-fill p-3">
               <div className="mb-2 flex items-center gap-2">
                 <span className={`inline-flex h-8 w-8 items-center justify-center rounded-xl ring-1 ${tones[item.severity]}`}>
                   <Icon size={16} />

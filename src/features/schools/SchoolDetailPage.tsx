@@ -60,7 +60,7 @@ export function SchoolDetailPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             {(['director', 'operator', 'admin'] as const).map((role) => (
-              <span key={role} className="rounded-full bg-white/5 px-3 py-1.5 text-xs ring-1 ring-white/10">
+              <span key={role} className="rounded-full bg-fill px-3 py-1.5 text-xs ring-1 ring-line">
                 {t(`schools.roles.${role}`)}
               </span>
             ))}
@@ -96,7 +96,7 @@ export function SchoolDetailPage() {
 
 function Metric({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-[18px] bg-white/5 p-3">
+    <div className="rounded-[18px] bg-fill p-3">
       <p className="text-xs text-text-muted">{label}</p>
       <p className="mt-1 font-display text-xl font-semibold">{value}</p>
     </div>

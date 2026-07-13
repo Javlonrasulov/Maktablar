@@ -38,7 +38,7 @@ export function AppLayout() {
         unread={unread}
       />
 
-      <div className="mx-auto flex max-w-[1800px] gap-4 px-3 pt-4 md:px-5">
+      <div className="flex w-full gap-4 px-3 pt-4 md:px-5 xl:px-6">
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((v) => !v)} />
         <main className="min-w-0 flex-1">
           <AnimatePresence mode="wait">

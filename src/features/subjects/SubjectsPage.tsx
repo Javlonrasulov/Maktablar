@@ -68,7 +68,7 @@ export function SubjectsPage() {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between gap-3 border-b border-white/5 py-1.5">
+    <div className="flex justify-between gap-3 border-b border-line py-1.5">
       <dt className="text-text-muted">{label}</dt>
       <dd>{value}</dd>
     </div>
