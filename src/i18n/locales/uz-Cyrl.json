@@ -1,0 +1,199 @@
+{
+  "brand": {
+    "name": "Navbahor Education",
+    "subtitle": "Intelligence Platform"
+  },
+  "nav": {
+    "dashboard": "Бошқарув панели",
+    "schools": "Мактаблар",
+    "teachers": "Ўқитувчилар",
+    "subjects": "Фанлар",
+    "workload": "Юклама",
+    "map": "Харита",
+    "reports": "Ҳисоботлар",
+    "settings": "Созламалар",
+    "search": "Қидирув",
+    "notifications": "Билдиришномалар",
+    "menu": "Меню"
+  },
+  "common": {
+    "loading": "Юкланмоқда...",
+    "save": "Сақлаш",
+    "cancel": "Бекор қилиш",
+    "export": "Экспорт",
+    "excel": "Excel",
+    "pdf": "PDF",
+    "print": "Чоп этиш",
+    "filter": "Фильтр",
+    "searchPlaceholder": "Қидириш...",
+    "noResults": "Натижа топилмади",
+    "viewAll": "Барчасини кўриш",
+    "status": "Статус",
+    "actions": "Амаллар",
+    "back": "Орқага",
+    "details": "Батафсил",
+    "close": "Ёпиш",
+    "all": "Барчаси",
+    "page": "Саҳифа",
+    "of": "/",
+    "language": "Тил",
+    "director": "Директор",
+    "phone": "Телефон",
+    "teachers": "Ўқитувчилар",
+    "students": "Ўқувчилар",
+    "subjects": "Фанлар",
+    "hours": "Соат",
+    "vacancy": "Вакансия",
+    "updated": "Янгиланган"
+  },
+  "status": {
+    "normal": "Нормал",
+    "shortage": "Ўқитувчи етишмайди",
+    "overload": "Юклама ортиқча",
+    "problem": "Муаммо мавжуд",
+    "active": "Фаол",
+    "vacation": "Таътилда",
+    "inactive": "Нофаол"
+  },
+  "dashboard": {
+    "title": "Бошқарув панели",
+    "subtitle": "Навбаҳор тумани таълим ҳолати бир қарашда",
+    "kpis": {
+      "totalSchools": "Жами мактаблар",
+      "totalTeachers": "Жами ўқитувчилар",
+      "totalStudents": "Жами ўқувчилар",
+      "totalWeeklyHours": "Жами ҳафталик дарслик соати",
+      "vacantHours": "Вакант соатлар",
+      "mostLoadedSubject": "Энг кўп юкламали фан",
+      "leastLoadedSubject": "Энг кам юкламали фан",
+      "updatedToday": "Бугун янгиланган мактаблар",
+      "noDataSchools": "Маълумот киритмаган мактаблар"
+    },
+    "charts": {
+      "line": "Ҳафталик соатлар динамикаси",
+      "area": "Ўқитувчилар ўсиши",
+      "donut": "Мактаб статуслари",
+      "bar": "Фанлар бўйича соатлар",
+      "radar": "Туман салоҳияти",
+      "treemap": "Мактаблар юкламаси",
+      "heatmap": "Ҳафталик фаоллик",
+      "sankey": "Статус ва фан оқими"
+    },
+    "aiTitle": "AI тавсиялар",
+    "mapTitle": "Интерактив харита",
+    "notificationsTitle": "Сўнгги билдиришномалар"
+  },
+  "ai": {
+    "shortageTitle": "Фан етишмовчилиги",
+    "shortageDetail": "{{school}} да {{subject}} бўйича ўқитувчи етишмайди",
+    "overloadTitle": "Юклама меъёридан ошган",
+    "overloadDetail": "{{teacher}} ҳафталик {{hours}} соат ишламоқда",
+    "vacancyTitle": "Вакант соатлар",
+    "vacancyDetail": "{{subject}} бўйича {{hours}} вакант соат мавжуд",
+    "staleTitle": "Янгиланмаган маълумот",
+    "staleDetail": "{{school}} {{days}} кундан бери маълумот янгиламади"
+  },
+  "schools": {
+    "title": "Мактаблар",
+    "subtitle": "Туман мактаблари каталоги",
+    "search": "Мактаб, директор ёки телефон...",
+    "filterStatus": "Статус бўйича",
+    "weeklyLoad": "Жами юклама",
+    "panel": "Мактаб панели",
+    "roles": {
+      "director": "Директор",
+      "operator": "Оператор",
+      "admin": "Админ"
+    },
+    "sections": {
+      "teachers": "Ўқитувчилар",
+      "subjects": "Фанлар",
+      "classes": "Синфлар",
+      "workloads": "Дарс юкламалари",
+      "vacancies": "Вакансиялар",
+      "schedule": "Жадвал",
+      "reports": "Ҳисоботлар"
+    }
+  },
+  "teachers": {
+    "title": "Ўқитувчилар",
+    "subtitle": "Туман ўқитувчилари профиллари",
+    "search": "Ф.И.О., фан ёки телефон...",
+    "specialty": "Мутахассислиги",
+    "category": "Категория",
+    "experience": "Стаж",
+    "school": "Мактаб",
+    "subject": "Фан",
+    "weeklyHours": "Ҳафталик соат",
+    "profile": "Ўқитувчи профили",
+    "personal": "Шахсий маълумот",
+    "subjects": "Фанлар",
+    "yearly": "Йиллик статистика",
+    "history": "Тарих",
+    "classes": "Синфлар",
+    "schools": "Мактаблар"
+  },
+  "subjectsPage": {
+    "title": "Фанлар",
+    "subtitle": "Фанлар бўйича аналитика",
+    "teachers": "Ўқитувчилар сони",
+    "totalHours": "Жами соат",
+    "vacancy": "Вакансия",
+    "overload": "Ортиқча юклама",
+    "topSchool": "Энг фаол мактаб"
+  },
+  "workload": {
+    "title": "Юклама аналитикаси",
+    "subtitle": "Ўқитувчилар ҳафталик юкламаси таҳлили",
+    "under18": "18 соатдан кам",
+    "h18": "18–23 соат",
+    "h24": "24–29 соат",
+    "h30": "30–39 соат",
+    "over40": "40+ соат"
+  },
+  "map": {
+    "title": "Харита",
+    "subtitle": "Навбаҳор тумани мактаблари"
+  },
+  "reports": {
+    "title": "Ҳисоботлар",
+    "subtitle": "Статистикани экспорт қилиш",
+    "schoolsReport": "Мактаблар ҳисоботи",
+    "teachersReport": "Ўқитувчилар ҳисоботи",
+    "subjectsReport": "Фанлар ҳисоботи",
+    "exported": "Файл тайёрланди"
+  },
+  "settings": {
+    "title": "Созламалар",
+    "subtitle": "Тизим конфигурацияси",
+    "logo": "Логотип",
+    "colors": "Ранглар",
+    "district": "Туман маълумотлари",
+    "subjects": "Фанлар рўйхати",
+    "academicYear": "Ўқув йили",
+    "users": "Фойдаланувчилар",
+    "roles": "Роллар",
+    "districtName": "Навбаҳор тумани",
+    "region": "Навоий вилояти",
+    "year": "2025–2026"
+  },
+  "notifications": {
+    "title": "Билдиришномалар",
+    "empty": "Янги билдиришнома йўқ",
+    "dataEntered": "{{school}}-мактаб янги маълумот киритди",
+    "vacancyAdded": "{{school}}-мактаб вакант қўшди",
+    "workloadUpdated": "{{school}}-мактаб юкламани янгилади",
+    "staleData": "{{school}}-мактаб маълумотни янгиламади"
+  },
+  "search": {
+    "title": "Глобал қидирув",
+    "hint": "Мактаб, фан, ўқитувчи, телефон, директор...",
+    "schools": "Мактаблар",
+    "teachers": "Ўқитувчилар",
+    "subjects": "Фанлар"
+  },
+  "validation": {
+    "required": "Мажбурий майдон",
+    "invalidPhone": "Нотўғри телефон рақами"
+  }
+}

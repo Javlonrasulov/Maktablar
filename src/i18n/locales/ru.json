@@ -1,0 +1,199 @@
+{
+  "brand": {
+    "name": "Navbahor Education",
+    "subtitle": "Intelligence Platform"
+  },
+  "nav": {
+    "dashboard": "Панель управления",
+    "schools": "Школы",
+    "teachers": "Учителя",
+    "subjects": "Предметы",
+    "workload": "Нагрузка",
+    "map": "Карта",
+    "reports": "Отчёты",
+    "settings": "Настройки",
+    "search": "Поиск",
+    "notifications": "Уведомления",
+    "menu": "Меню"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "export": "Экспорт",
+    "excel": "Excel",
+    "pdf": "PDF",
+    "print": "Печать",
+    "filter": "Фильтр",
+    "searchPlaceholder": "Поиск...",
+    "noResults": "Ничего не найдено",
+    "viewAll": "Смотреть всё",
+    "status": "Статус",
+    "actions": "Действия",
+    "back": "Назад",
+    "details": "Подробнее",
+    "close": "Закрыть",
+    "all": "Все",
+    "page": "Страница",
+    "of": "/",
+    "language": "Язык",
+    "director": "Директор",
+    "phone": "Телефон",
+    "teachers": "Учителя",
+    "students": "Ученики",
+    "subjects": "Предметы",
+    "hours": "Часы",
+    "vacancy": "Вакансия",
+    "updated": "Обновлено"
+  },
+  "status": {
+    "normal": "Норма",
+    "shortage": "Нехватка учителей",
+    "overload": "Перегрузка",
+    "problem": "Есть проблема",
+    "active": "Активен",
+    "vacation": "В отпуске",
+    "inactive": "Неактивен"
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "subtitle": "Состояние образования района Навбахор",
+    "kpis": {
+      "totalSchools": "Всего школ",
+      "totalTeachers": "Всего учителей",
+      "totalStudents": "Всего учеников",
+      "totalWeeklyHours": "Всего недельных часов",
+      "vacantHours": "Вакантные часы",
+      "mostLoadedSubject": "Самый нагруженный предмет",
+      "leastLoadedSubject": "Наименее нагруженный предмет",
+      "updatedToday": "Обновлено сегодня",
+      "noDataSchools": "Школы без данных"
+    },
+    "charts": {
+      "line": "Динамика часов",
+      "area": "Рост учителей",
+      "donut": "Статусы школ",
+      "bar": "Часы по предметам",
+      "radar": "Потенциал района",
+      "treemap": "Нагрузка школ",
+      "heatmap": "Недельная активность",
+      "sankey": "Поток статусов и предметов"
+    },
+    "aiTitle": "AI рекомендации",
+    "mapTitle": "Интерактивная карта",
+    "notificationsTitle": "Последние уведомления"
+  },
+  "ai": {
+    "shortageTitle": "Нехватка предмета",
+    "shortageDetail": "В {{school}} не хватает учителя по предмету {{subject}}",
+    "overloadTitle": "Превышена нагрузка",
+    "overloadDetail": "{{teacher}} работает {{hours}} часов в неделю",
+    "vacancyTitle": "Вакантные часы",
+    "vacancyDetail": "По предмету {{subject}} есть {{hours}} вакантных часов",
+    "staleTitle": "Устаревшие данные",
+    "staleDetail": "{{school}} не обновляла данные {{days}} дней"
+  },
+  "schools": {
+    "title": "Школы",
+    "subtitle": "Каталог школ района",
+    "search": "Школа, директор или телефон...",
+    "filterStatus": "По статусу",
+    "weeklyLoad": "Общая нагрузка",
+    "panel": "Панель школы",
+    "roles": {
+      "director": "Директор",
+      "operator": "Оператор",
+      "admin": "Админ"
+    },
+    "sections": {
+      "teachers": "Учителя",
+      "subjects": "Предметы",
+      "classes": "Классы",
+      "workloads": "Нагрузки",
+      "vacancies": "Вакансии",
+      "schedule": "Расписание",
+      "reports": "Отчёты"
+    }
+  },
+  "teachers": {
+    "title": "Учителя",
+    "subtitle": "Профили учителей района",
+    "search": "ФИО, предмет или телефон...",
+    "specialty": "Специальность",
+    "category": "Категория",
+    "experience": "Стаж",
+    "school": "Школа",
+    "subject": "Предмет",
+    "weeklyHours": "Часов в неделю",
+    "profile": "Профиль учителя",
+    "personal": "Личные данные",
+    "subjects": "Предметы",
+    "yearly": "Годовая статистика",
+    "history": "История",
+    "classes": "Классы",
+    "schools": "Школы"
+  },
+  "subjectsPage": {
+    "title": "Предметы",
+    "subtitle": "Аналитика по предметам",
+    "teachers": "Количество учителей",
+    "totalHours": "Всего часов",
+    "vacancy": "Вакансия",
+    "overload": "Перегрузка",
+    "topSchool": "Самая активная школа"
+  },
+  "workload": {
+    "title": "Аналитика нагрузки",
+    "subtitle": "Анализ недельной нагрузки учителей",
+    "under18": "Менее 18 часов",
+    "h18": "18–23 часа",
+    "h24": "24–29 часов",
+    "h30": "30–39 часов",
+    "over40": "40+ часов"
+  },
+  "map": {
+    "title": "Карта",
+    "subtitle": "Школы района Навбахор"
+  },
+  "reports": {
+    "title": "Отчёты",
+    "subtitle": "Экспорт статистики",
+    "schoolsReport": "Отчёт по школам",
+    "teachersReport": "Отчёт по учителям",
+    "subjectsReport": "Отчёт по предметам",
+    "exported": "Файл готов"
+  },
+  "settings": {
+    "title": "Настройки",
+    "subtitle": "Конфигурация системы",
+    "logo": "Логотип",
+    "colors": "Цвета",
+    "district": "Данные района",
+    "subjects": "Список предметов",
+    "academicYear": "Учебный год",
+    "users": "Пользователи",
+    "roles": "Роли",
+    "districtName": "Район Навбахор",
+    "region": "Навоийская область",
+    "year": "2025–2026"
+  },
+  "notifications": {
+    "title": "Уведомления",
+    "empty": "Нет новых уведомлений",
+    "dataEntered": "Школа №{{school}} внесла новые данные",
+    "vacancyAdded": "Школа №{{school}} добавила вакансию",
+    "workloadUpdated": "Школа №{{school}} обновила нагрузку",
+    "staleData": "Школа №{{school}} не обновила данные"
+  },
+  "search": {
+    "title": "Глобальный поиск",
+    "hint": "Школа, предмет, учитель, телефон, директор...",
+    "schools": "Школы",
+    "teachers": "Учителя",
+    "subjects": "Предметы"
+  },
+  "validation": {
+    "required": "Обязательное поле",
+    "invalidPhone": "Неверный номер телефона"
+  }
+}

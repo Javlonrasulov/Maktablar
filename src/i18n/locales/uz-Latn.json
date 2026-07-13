@@ -1,0 +1,199 @@
+{
+  "brand": {
+    "name": "Navbahor Education",
+    "subtitle": "Intelligence Platform"
+  },
+  "nav": {
+    "dashboard": "Boshqaruv paneli",
+    "schools": "Maktablar",
+    "teachers": "O'qituvchilar",
+    "subjects": "Fanlar",
+    "workload": "Yuklama",
+    "map": "Xarita",
+    "reports": "Hisobotlar",
+    "settings": "Sozlamalar",
+    "search": "Qidiruv",
+    "notifications": "Bildirishnomalar",
+    "menu": "Menyu"
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "export": "Eksport",
+    "excel": "Excel",
+    "pdf": "PDF",
+    "print": "Chop etish",
+    "filter": "Filtr",
+    "searchPlaceholder": "Qidirish...",
+    "noResults": "Natija topilmadi",
+    "viewAll": "Barchasini ko'rish",
+    "status": "Status",
+    "actions": "Amallar",
+    "back": "Orqaga",
+    "details": "Batafsil",
+    "close": "Yopish",
+    "all": "Barchasi",
+    "page": "Sahifa",
+    "of": "/",
+    "language": "Til",
+    "director": "Direktor",
+    "phone": "Telefon",
+    "teachers": "O'qituvchilar",
+    "students": "O'quvchilar",
+    "subjects": "Fanlar",
+    "hours": "Soat",
+    "vacancy": "Vakansiya",
+    "updated": "Yangilangan"
+  },
+  "status": {
+    "normal": "Normal",
+    "shortage": "O'qituvchi yetishmaydi",
+    "overload": "Yuklama ortiqcha",
+    "problem": "Muammo mavjud",
+    "active": "Faol",
+    "vacation": "Ta'tilda",
+    "inactive": "Nofaol"
+  },
+  "dashboard": {
+    "title": "Boshqaruv paneli",
+    "subtitle": "Navbahor tumani ta'lim holati bir qarashda",
+    "kpis": {
+      "totalSchools": "Jami maktablar",
+      "totalTeachers": "Jami o'qituvchilar",
+      "totalStudents": "Jami o'quvchilar",
+      "totalWeeklyHours": "Jami haftalik dars soati",
+      "vacantHours": "Vakant soatlar",
+      "mostLoadedSubject": "Eng ko'p yuklamali fan",
+      "leastLoadedSubject": "Eng kam yuklamali fan",
+      "updatedToday": "Bugun yangilangan maktablar",
+      "noDataSchools": "Ma'lumot kiritmagan maktablar"
+    },
+    "charts": {
+      "line": "Haftalik soatlar dinamikasi",
+      "area": "O'qituvchilar o'sishi",
+      "donut": "Maktab statuslari",
+      "bar": "Fanlar bo'yicha soatlar",
+      "radar": "Tuman salohiyati",
+      "treemap": "Maktablar yuklamasi",
+      "heatmap": "Haftalik faollik",
+      "sankey": "Status va fan oqimi"
+    },
+    "aiTitle": "AI tavsiyalar",
+    "mapTitle": "Interaktiv xarita",
+    "notificationsTitle": "So'nggi bildirishnomalar"
+  },
+  "ai": {
+    "shortageTitle": "Fan yetishmovchiligi",
+    "shortageDetail": "{{school}} da {{subject}} bo'yicha o'qituvchi yetishmaydi",
+    "overloadTitle": "Yuklama me'yoridan oshgan",
+    "overloadDetail": "{{teacher}} haftalik {{hours}} soat ishlamoqda",
+    "vacancyTitle": "Vakant soatlar",
+    "vacancyDetail": "{{subject}} bo'yicha {{hours}} vakant soat mavjud",
+    "staleTitle": "Yangilanmagan ma'lumot",
+    "staleDetail": "{{school}} {{days}} kundan beri ma'lumot yangilamadi"
+  },
+  "schools": {
+    "title": "Maktablar",
+    "subtitle": "Tuman maktablari katalogi",
+    "search": "Maktab, direktor yoki telefon...",
+    "filterStatus": "Status bo'yicha",
+    "weeklyLoad": "Jami yuklama",
+    "panel": "Maktab paneli",
+    "roles": {
+      "director": "Direktor",
+      "operator": "Operator",
+      "admin": "Admin"
+    },
+    "sections": {
+      "teachers": "O'qituvchilar",
+      "subjects": "Fanlar",
+      "classes": "Sinflar",
+      "workloads": "Dars yuklamalari",
+      "vacancies": "Vakansiyalar",
+      "schedule": "Jadval",
+      "reports": "Hisobotlar"
+    }
+  },
+  "teachers": {
+    "title": "O'qituvchilar",
+    "subtitle": "Tuman o'qituvchilari profillari",
+    "search": "F.I.O., fan yoki telefon...",
+    "specialty": "Mutaxassisligi",
+    "category": "Kategoriya",
+    "experience": "Staj",
+    "school": "Maktab",
+    "subject": "Fan",
+    "weeklyHours": "Haftalik soat",
+    "profile": "O'qituvchi profili",
+    "personal": "Shaxsiy ma'lumot",
+    "subjects": "Fanlar",
+    "yearly": "Yillik statistika",
+    "history": "Tarix",
+    "classes": "Sinflar",
+    "schools": "Maktablar"
+  },
+  "subjectsPage": {
+    "title": "Fanlar",
+    "subtitle": "Fanlar bo'yicha analitika",
+    "teachers": "O'qituvchilar soni",
+    "totalHours": "Jami soat",
+    "vacancy": "Vakansiya",
+    "overload": "Ortiqcha yuklama",
+    "topSchool": "Eng faol maktab"
+  },
+  "workload": {
+    "title": "Yuklama analitikasi",
+    "subtitle": "O'qituvchilar haftalik yuklamasi tahlili",
+    "under18": "18 soatdan kam",
+    "h18": "18–23 soat",
+    "h24": "24–29 soat",
+    "h30": "30–39 soat",
+    "over40": "40+ soat"
+  },
+  "map": {
+    "title": "Xarita",
+    "subtitle": "Navbahor tumani maktablari"
+  },
+  "reports": {
+    "title": "Hisobotlar",
+    "subtitle": "Statistikani eksport qilish",
+    "schoolsReport": "Maktablar hisoboti",
+    "teachersReport": "O'qituvchilar hisoboti",
+    "subjectsReport": "Fanlar hisoboti",
+    "exported": "Fayl tayyorlandi"
+  },
+  "settings": {
+    "title": "Sozlamalar",
+    "subtitle": "Tizim konfiguratsiyasi",
+    "logo": "Logotip",
+    "colors": "Ranglar",
+    "district": "Tuman ma'lumotlari",
+    "subjects": "Fanlar ro'yxati",
+    "academicYear": "O'quv yili",
+    "users": "Foydalanuvchilar",
+    "roles": "Rollar",
+    "districtName": "Navbahor tumani",
+    "region": "Navoiy viloyati",
+    "year": "2025–2026"
+  },
+  "notifications": {
+    "title": "Bildirishnomalar",
+    "empty": "Yangi bildirishnoma yo'q",
+    "dataEntered": "{{school}}-maktab yangi ma'lumot kiritdi",
+    "vacancyAdded": "{{school}}-maktab vakant qo'shdi",
+    "workloadUpdated": "{{school}}-maktab yuklamani yangiladi",
+    "staleData": "{{school}}-maktab ma'lumotni yangilamadi"
+  },
+  "search": {
+    "title": "Global qidiruv",
+    "hint": "Maktab, fan, o'qituvchi, telefon, direktor...",
+    "schools": "Maktablar",
+    "teachers": "O'qituvchilar",
+    "subjects": "Fanlar"
+  },
+  "validation": {
+    "required": "Majburiy maydon",
+    "invalidPhone": "Noto'g'ri telefon raqami"
+  }
+}

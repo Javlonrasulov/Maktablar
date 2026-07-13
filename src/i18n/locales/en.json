@@ -1,0 +1,199 @@
+{
+  "brand": {
+    "name": "Navbahor Education",
+    "subtitle": "Intelligence Platform"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "schools": "Schools",
+    "teachers": "Teachers",
+    "subjects": "Subjects",
+    "workload": "Workload",
+    "map": "Map",
+    "reports": "Reports",
+    "settings": "Settings",
+    "search": "Search",
+    "notifications": "Notifications",
+    "menu": "Menu"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "export": "Export",
+    "excel": "Excel",
+    "pdf": "PDF",
+    "print": "Print",
+    "filter": "Filter",
+    "searchPlaceholder": "Search...",
+    "noResults": "No results found",
+    "viewAll": "View all",
+    "status": "Status",
+    "actions": "Actions",
+    "back": "Back",
+    "details": "Details",
+    "close": "Close",
+    "all": "All",
+    "page": "Page",
+    "of": "/",
+    "language": "Language",
+    "director": "Director",
+    "phone": "Phone",
+    "teachers": "Teachers",
+    "students": "Students",
+    "subjects": "Subjects",
+    "hours": "Hours",
+    "vacancy": "Vacancy",
+    "updated": "Updated"
+  },
+  "status": {
+    "normal": "Normal",
+    "shortage": "Teacher shortage",
+    "overload": "Overload",
+    "problem": "Problem",
+    "active": "Active",
+    "vacation": "On leave",
+    "inactive": "Inactive"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Navbahor district education at a glance",
+    "kpis": {
+      "totalSchools": "Total schools",
+      "totalTeachers": "Total teachers",
+      "totalStudents": "Total students",
+      "totalWeeklyHours": "Total weekly hours",
+      "vacantHours": "Vacant hours",
+      "mostLoadedSubject": "Most loaded subject",
+      "leastLoadedSubject": "Least loaded subject",
+      "updatedToday": "Updated today",
+      "noDataSchools": "Schools without data"
+    },
+    "charts": {
+      "line": "Weekly hours trend",
+      "area": "Teacher growth",
+      "donut": "School statuses",
+      "bar": "Hours by subject",
+      "radar": "District capability",
+      "treemap": "School workload",
+      "heatmap": "Weekly activity",
+      "sankey": "Status and subject flow"
+    },
+    "aiTitle": "AI insights",
+    "mapTitle": "Interactive map",
+    "notificationsTitle": "Latest notifications"
+  },
+  "ai": {
+    "shortageTitle": "Subject shortage",
+    "shortageDetail": "{{school}} lacks a teacher for {{subject}}",
+    "overloadTitle": "Workload exceeded",
+    "overloadDetail": "{{teacher}} works {{hours}} hours per week",
+    "vacancyTitle": "Vacant hours",
+    "vacancyDetail": "{{subject}} has {{hours}} vacant hours",
+    "staleTitle": "Stale data",
+    "staleDetail": "{{school}} has not updated data for {{days}} days"
+  },
+  "schools": {
+    "title": "Schools",
+    "subtitle": "District school catalog",
+    "search": "School, director or phone...",
+    "filterStatus": "Filter by status",
+    "weeklyLoad": "Total workload",
+    "panel": "School panel",
+    "roles": {
+      "director": "Director",
+      "operator": "Operator",
+      "admin": "Admin"
+    },
+    "sections": {
+      "teachers": "Teachers",
+      "subjects": "Subjects",
+      "classes": "Classes",
+      "workloads": "Workloads",
+      "vacancies": "Vacancies",
+      "schedule": "Schedule",
+      "reports": "Reports"
+    }
+  },
+  "teachers": {
+    "title": "Teachers",
+    "subtitle": "District teacher profiles",
+    "search": "Name, subject or phone...",
+    "specialty": "Specialty",
+    "category": "Category",
+    "experience": "Experience",
+    "school": "School",
+    "subject": "Subject",
+    "weeklyHours": "Weekly hours",
+    "profile": "Teacher profile",
+    "personal": "Personal info",
+    "subjects": "Subjects",
+    "yearly": "Yearly statistics",
+    "history": "History",
+    "classes": "Classes",
+    "schools": "Schools"
+  },
+  "subjectsPage": {
+    "title": "Subjects",
+    "subtitle": "Subject analytics",
+    "teachers": "Teachers count",
+    "totalHours": "Total hours",
+    "vacancy": "Vacancy",
+    "overload": "Overload",
+    "topSchool": "Most active school"
+  },
+  "workload": {
+    "title": "Workload analytics",
+    "subtitle": "Teacher weekly workload analysis",
+    "under18": "Under 18 hours",
+    "h18": "18–23 hours",
+    "h24": "24–29 hours",
+    "h30": "30–39 hours",
+    "over40": "40+ hours"
+  },
+  "map": {
+    "title": "Map",
+    "subtitle": "Navbahor district schools"
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Export statistics",
+    "schoolsReport": "Schools report",
+    "teachersReport": "Teachers report",
+    "subjectsReport": "Subjects report",
+    "exported": "File ready"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "System configuration",
+    "logo": "Logo",
+    "colors": "Colors",
+    "district": "District info",
+    "subjects": "Subject list",
+    "academicYear": "Academic year",
+    "users": "Users",
+    "roles": "Roles",
+    "districtName": "Navbahor district",
+    "region": "Navoiy region",
+    "year": "2025–2026"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No new notifications",
+    "dataEntered": "School {{school}} entered new data",
+    "vacancyAdded": "School {{school}} added a vacancy",
+    "workloadUpdated": "School {{school}} updated workload",
+    "staleData": "School {{school}} has not updated data"
+  },
+  "search": {
+    "title": "Global search",
+    "hint": "School, subject, teacher, phone, director...",
+    "schools": "Schools",
+    "teachers": "Teachers",
+    "subjects": "Subjects"
+  },
+  "validation": {
+    "required": "Required field",
+    "invalidPhone": "Invalid phone number"
+  }
+}
