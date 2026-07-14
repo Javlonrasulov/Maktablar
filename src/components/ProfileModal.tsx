@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LogOut, User } from 'lucide-react'
@@ -34,7 +34,13 @@ export function ProfileModal({ open, onClose }: ProfileModalProps) {
 
   if (!user) return null
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onLogout = () => {
+    logout()
+    onClose()
+    navigate('/login', { replace: true })
+  }
+
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError('')
     setSuccess('')
@@ -75,7 +81,40 @@ export function ProfileModal({ open, onClose }: ProfileModalProps) {
   }
 
   return (
-    <GlassModal open={open} onClose={onClose} title={t('profile.title')}>
+    <GlassModal
+      open={open}
+      onClose={onClose}
+      title={t('profile.title')}
+      footer={
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <GlassButton
+            type="button"
+            variant="danger"
+            size="sm"
+            className="w-full sm:w-auto"
+            icon={<LogOut size={16} />}
+            onClick={onLogout}
+          >
+            {t('auth.logout')}
+          </GlassButton>
+          <div className="flex w-full gap-2 sm:w-auto">
+            <GlassButton type="button" variant="ghost" size="sm" className="flex-1 sm:flex-none" onClick={onClose}>
+              {t('common.cancel')}
+            </GlassButton>
+            <GlassButton
+              type="submit"
+              form="profile-credentials-form"
+              variant="primary"
+              size="sm"
+              className="flex-1 sm:flex-none"
+              disabled={saving}
+            >
+              {saving ? t('common.loading') : t('common.save')}
+            </GlassButton>
+          </div>
+        </div>
+      }
+    >
       <div className="mb-5 flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/15 ring-1 ring-accent/30">
           <User size={22} className="text-accent" />
@@ -90,7 +129,7 @@ export function ProfileModal({ open, onClose }: ProfileModalProps) {
         </div>
       </div>
 
-      <form className="space-y-3" onSubmit={onSubmit}>
+      <form id="profile-credentials-form" className="space-y-3 pb-2" onSubmit={onSubmit}>
         <GlassInput
           label={t('auth.login')}
           value={login}
@@ -122,30 +161,6 @@ export function ProfileModal({ open, onClose }: ProfileModalProps) {
 
         {error ? <p className="text-sm text-danger">{error}</p> : null}
         {success ? <p className="text-sm text-success">{success}</p> : null}
-
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
-          <GlassButton
-            type="button"
-            variant="ghost"
-            size="sm"
-            icon={<LogOut size={16} />}
-            onClick={() => {
-              logout()
-              onClose()
-              navigate('/login', { replace: true })
-            }}
-          >
-            {t('auth.logout')}
-          </GlassButton>
-          <div className="flex gap-2">
-            <GlassButton type="button" variant="ghost" size="sm" onClick={onClose}>
-              {t('common.cancel')}
-            </GlassButton>
-            <GlassButton type="submit" variant="primary" size="sm" disabled={saving}>
-              {saving ? t('common.loading') : t('common.save')}
-            </GlassButton>
-          </div>
-        </div>
       </form>
     </GlassModal>
   )
