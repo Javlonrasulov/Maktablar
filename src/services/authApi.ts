@@ -28,6 +28,8 @@ export async function apiLogin(
     role: AuthUser['role']
     displayName: string
     schoolId?: string
+    jobRole?: string
+    permissions?: string[]
   }> = [],
 ): Promise<AuthUser> {
   const res = await fetch('/api/login', {

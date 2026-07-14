@@ -521,6 +521,8 @@ export async function loginWithCredentials(login: string, password: string): Pro
         role: u.role,
         displayName: u.displayName,
         schoolId: u.schoolId,
+        jobRole: u.jobRole,
+        permissions: u.permissions,
       })),
     )
     writeJson(SESSION_KEY, user)
@@ -542,6 +544,8 @@ export async function loginWithCredentials(login: string, password: string): Pro
     role: found.role,
     displayName: found.displayName,
     schoolId: found.schoolId,
+    jobRole: found.jobRole,
+    permissions: found.permissions,
   }
   writeJson(SESSION_KEY, user)
   return user
@@ -569,6 +573,8 @@ export async function updateSystemUser(
       ...session,
       login: updated.login,
       displayName: updated.fullName,
+      jobRole: updated.jobRole,
+      permissions: updated.permissions,
     })
   }
   return updated

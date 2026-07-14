@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Pencil, Trash2 } from 'lucide-react'
 import { GlassButton, GlassCard, GlassInput, GlassSelect } from '@/design-system'
 import { cn } from '@/lib/utils'
+import { PERMISSION_KEYS, type PermissionKey } from '@/lib/permissions'
 import {
   createSystemUser,
   deleteSystemUser,
@@ -15,18 +16,6 @@ import {
 } from '@/services/schoolStore'
 
 const DEFAULT_ROLES = ['admin', 'director', 'operator'] as const
-
-const PERMISSION_KEYS = [
-  'dashboard',
-  'schools',
-  'teachers',
-  'subjects',
-  'workload',
-  'map',
-  'systemUsers',
-] as const
-
-type PermissionKey = (typeof PERMISSION_KEYS)[number]
 
 const schema = z.object({
   fullName: z.string().min(2),

@@ -118,6 +118,8 @@ export interface AuthUser {
   role: UserRole
   displayName: string
   schoolId?: string
+  jobRole?: string
+  permissions?: string[]
 }
 
 export interface CreateSchoolInput {

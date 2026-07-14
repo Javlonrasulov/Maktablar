@@ -12,27 +12,33 @@ import {
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
+import { hasPermission, type PermissionKey } from '@/lib/permissions'
 
 const adminNav = [
-  { to: '/', key: 'dashboard', icon: LayoutDashboard },
-  { to: '/schools', key: 'schools', icon: Building2 },
-  { to: '/teachers', key: 'teachers', icon: Users },
-  { to: '/subjects', key: 'subjects', icon: BookOpen },
-  { to: '/workload', key: 'workload', icon: BarChart3 },
-  { to: '/map', key: 'map', icon: Map },
-  { to: '/system-users', key: 'systemUsers', icon: UserCog },
+  { to: '/', key: 'dashboard', permission: 'dashboard' as PermissionKey, icon: LayoutDashboard },
+  { to: '/schools', key: 'schools', permission: 'schools' as PermissionKey, icon: Building2 },
+  { to: '/teachers', key: 'teachers', permission: 'teachers' as PermissionKey, icon: Users },
+  { to: '/subjects', key: 'subjects', permission: 'subjects' as PermissionKey, icon: BookOpen },
+  { to: '/workload', key: 'workload', permission: 'workload' as PermissionKey, icon: BarChart3 },
+  { to: '/map', key: 'map', permission: 'map' as PermissionKey, icon: Map },
+  {
+    to: '/system-users',
+    key: 'systemUsers',
+    permission: 'systemUsers' as PermissionKey,
+    icon: UserCog,
+  },
 ] as const
 
-const schoolNav = [
-  { to: '/my-school', key: 'mySchool', icon: School },
-] as const
+const schoolNav = [{ to: '/my-school', key: 'mySchool', icon: School }] as const
 
 export const mainNav = adminNav
 
 export function useNavItems() {
   const { t } = useTranslation()
-  const { isSchool } = useAuth()
-  const items = isSchool ? schoolNav : adminNav
+  const { isSchool, user } = useAuth()
+  const items = isSchool
+    ? schoolNav
+    : adminNav.filter((item) => hasPermission(user, item.permission))
   return items.map((item) => ({
     ...item,
     label: t(`nav.${item.key}`),

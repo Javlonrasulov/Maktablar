@@ -10,17 +10,16 @@ import {
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
+import { hasPermission, type PermissionKey } from '@/lib/permissions'
 
 const adminMobile = [
-  { to: '/', key: 'dashboard', icon: LayoutDashboard },
-  { to: '/schools', key: 'schools', icon: Building2 },
-  { to: '/teachers', key: 'teachers', icon: Users },
-  { to: '/map', key: 'map', icon: Map },
+  { to: '/', key: 'dashboard', permission: 'dashboard' as PermissionKey, icon: LayoutDashboard },
+  { to: '/schools', key: 'schools', permission: 'schools' as PermissionKey, icon: Building2 },
+  { to: '/teachers', key: 'teachers', permission: 'teachers' as PermissionKey, icon: Users },
+  { to: '/map', key: 'map', permission: 'map' as PermissionKey, icon: Map },
 ] as const
 
-const schoolMobile = [
-  { to: '/my-school', key: 'mySchool', icon: School },
-] as const
+const schoolMobile = [{ to: '/my-school', key: 'mySchool', icon: School }] as const
 
 interface BottomNavProps {
   onMore: () => void
@@ -28,9 +27,11 @@ interface BottomNavProps {
 
 export function BottomNav({ onMore }: BottomNavProps) {
   const { t } = useTranslation()
-  const { isSchool } = useAuth()
+  const { isSchool, user } = useAuth()
   const location = useLocation()
-  const mobileItems = isSchool ? schoolMobile : adminMobile
+  const mobileItems = isSchool
+    ? schoolMobile
+    : adminMobile.filter((item) => hasPermission(user, item.permission))
 
   return (
     <nav className="glass-strong fixed inset-x-3 bottom-3 z-40 flex items-center justify-around gap-0.5 rounded-[22px] px-1.5 py-2 safe-bottom lg:hidden">

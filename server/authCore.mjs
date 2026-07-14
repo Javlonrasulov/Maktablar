@@ -41,6 +41,8 @@ function toAuth(user) {
     role: user.role ?? 'admin',
     displayName: user.displayName,
     schoolId: user.schoolId,
+    jobRole: user.jobRole,
+    permissions: Array.isArray(user.permissions) ? [...user.permissions] : [],
   }
 }
 
@@ -150,6 +152,8 @@ export function createAuthHandlers(storage) {
           role: foundLocal.role,
           displayName: foundLocal.displayName,
           schoolId: foundLocal.schoolId,
+          jobRole: foundLocal.jobRole,
+          permissions: Array.isArray(foundLocal.permissions) ? [...foundLocal.permissions] : undefined,
         }
       }
 

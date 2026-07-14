@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { LogIn } from 'lucide-react'
 import { GlassButton, GlassCard, GlassInput } from '@/design-system'
 import { useAuth } from '@/hooks/useAuth'
+import { firstAllowedPath } from '@/lib/permissions'
 
 const schema = z.object({
   login: z.string().min(1),
@@ -34,8 +35,7 @@ export function LoginPage() {
     setError('')
     try {
       const user = await login(values.login.trim(), values.password.trim())
-      if (user.role === 'school') navigate('/my-school', { replace: true })
-      else navigate('/', { replace: true })
+      navigate(firstAllowedPath(user), { replace: true })
     } catch {
       setError(t('auth.invalid'))
     }
