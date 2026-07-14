@@ -509,10 +509,48 @@ export function updateSchoolProfile(id: string, patch: SchoolProfileInput): Scho
   return next
 }
 
-export function loginWithCredentials(login: string, password: string): AuthUser {
+function getLocalAccountsSnapshot(): StoredUser[] {
+  return allLoginAccounts().map((u) => ({
+    id: u.id,
+    login: u.login,
+    password: u.password,
+    role: u.role,
+    displayName: u.displayName,
+    schoolId: u.schoolId,
+    jobRole: u.jobRole,
+    permissions: u.permissions,
+  }))
+}
+
+export async function loginWithCredentials(login: string, password: string): Promise<AuthUser> {
   const normalizedLogin = normalizeLogin(login)
   const normalizedPassword = password.trim()
-  const found = allLoginAccounts().find(
+  const localAccounts = getLocalAccountsSnapshot()
+
+  try {
+    const { apiLogin } = await import('./authApi')
+    const user = await apiLogin(
+      login,
+      password,
+      localAccounts.map((u) => ({
+        id: u.id,
+        login: u.login,
+        password: u.password,
+        role: u.role,
+        displayName: u.displayName,
+        schoolId: u.schoolId,
+      })),
+    )
+    writeJson(SESSION_KEY, user)
+    return user
+  } catch (err) {
+    // Server ishlamasa — faqat shu qurilmadagi hisoblar
+    if (err instanceof Error && err.message === 'INVALID_CREDENTIALS') {
+      throw err
+    }
+  }
+
+  const found = localAccounts.find(
     (u) => normalizeLogin(u.login) === normalizedLogin && u.password === normalizedPassword,
   )
   if (!found) throw new Error('INVALID_CREDENTIALS')
@@ -527,122 +565,36 @@ export function loginWithCredentials(login: string, password: string): AuthUser 
   return user
 }
 
-export function listSystemUsers(): SystemUserRecord[] {
-  const builtin = getUsers().filter(isBuiltinAdmin).map(toSystemUserRecord)
-  const custom = getSystemUsersStore().map(toSystemUserRecord)
-  return [...builtin, ...custom]
+export async function listSystemUsers(): Promise<SystemUserRecord[]> {
+  const { apiListSystemUsers } = await import('./authApi')
+  return await apiListSystemUsers()
 }
 
-export function createSystemUser(input: CreateSystemUserInput): SystemUserRecord {
-  const login = input.login.trim()
-  const password = input.password.trim()
-  if (!login || !password) throw new Error('INVALID_INPUT')
-  if (allLoginAccounts().some((u) => normalizeLogin(u.login) === normalizeLogin(login))) {
-    throw new Error('LOGIN_EXISTS')
-  }
-
-  const created: StoredUser = {
-    id: `user-sys-${Date.now()}`,
-    login,
-    password,
-    role: 'admin',
-    displayName: input.fullName.trim(),
-    jobRole: input.jobRole.trim() || 'operator',
-    permissions: [...input.permissions],
-  }
-  saveSystemUsersStore([created, ...getSystemUsersStore()])
-  return toSystemUserRecord(created)
+export async function createSystemUser(input: CreateSystemUserInput): Promise<SystemUserRecord> {
+  const { apiCreateSystemUser } = await import('./authApi')
+  return await apiCreateSystemUser(input)
 }
 
-export function updateSystemUser(id: string, input: UpdateSystemUserInput): SystemUserRecord {
-  if (id === 'user-admin') {
-    const users = getUsers()
-    const idx = users.findIndex((u) => u.id === id)
-    if (idx < 0) throw new Error('NOT_FOUND')
-    const current = users[idx]!
-    const nextLogin = input.login.trim()
-    if (!nextLogin) throw new Error('INVALID_LOGIN')
-    if (
-      allLoginAccounts().some(
-        (u) => u.id !== id && normalizeLogin(u.login) === normalizeLogin(nextLogin),
-      )
-    ) {
-      throw new Error('LOGIN_EXISTS')
-    }
-    const nextPassword = input.password?.trim() ? input.password.trim() : current.password
-    if (input.password !== undefined && input.password.trim() && input.password.trim().length < 4) {
-      throw new Error('WEAK_PASSWORD')
-    }
-    const updated: StoredUser = {
-      ...current,
-      login: nextLogin,
-      password: nextPassword,
-      displayName: input.fullName.trim(),
-      jobRole: input.jobRole.trim() || current.jobRole || 'admin',
-      permissions: [...input.permissions],
-    }
-    const copy = [...users]
-    copy[idx] = updated
-    saveUsers(copy)
-    const session = getSession()
-    if (session?.id === id) {
-      writeJson(SESSION_KEY, {
-        ...session,
-        login: updated.login,
-        displayName: updated.displayName,
-      })
-    }
-    return toSystemUserRecord(updated)
-  }
-
-  const users = getSystemUsersStore()
-  const idx = users.findIndex((u) => u.id === id)
-  if (idx < 0) throw new Error('NOT_FOUND')
-
-  const current = users[idx]!
-  const nextLogin = input.login.trim()
-  if (!nextLogin) throw new Error('INVALID_LOGIN')
-
-  const loginTaken = allLoginAccounts().some(
-    (u) => u.id !== id && normalizeLogin(u.login) === normalizeLogin(nextLogin),
-  )
-  if (loginTaken) throw new Error('LOGIN_EXISTS')
-
-  const nextPassword = input.password?.trim() ? input.password.trim() : current.password
-  if (input.password !== undefined && input.password.trim() && input.password.trim().length < 4) {
-    throw new Error('WEAK_PASSWORD')
-  }
-
-  const updated: StoredUser = {
-    ...current,
-    login: nextLogin,
-    password: nextPassword,
-    displayName: input.fullName.trim(),
-    jobRole: input.jobRole.trim() || current.jobRole || 'operator',
-    permissions: [...input.permissions],
-  }
-  const copy = [...users]
-  copy[idx] = updated
-  saveSystemUsersStore(copy)
-
+export async function updateSystemUser(
+  id: string,
+  input: UpdateSystemUserInput,
+): Promise<SystemUserRecord> {
+  const { apiUpdateSystemUser } = await import('./authApi')
+  const updated = await apiUpdateSystemUser(id, input)
   const session = getSession()
   if (session?.id === id) {
     writeJson(SESSION_KEY, {
       ...session,
       login: updated.login,
-      displayName: updated.displayName,
+      displayName: updated.fullName,
     })
   }
-
-  return toSystemUserRecord(updated)
+  return updated
 }
 
-export function deleteSystemUser(id: string) {
-  if (id === 'user-admin') throw new Error('PROTECTED')
-  const users = getSystemUsersStore()
-  const target = users.find((u) => u.id === id)
-  if (!target) throw new Error('NOT_FOUND')
-  saveSystemUsersStore(users.filter((u) => u.id !== id))
+export async function deleteSystemUser(id: string): Promise<void> {
+  const { apiDeleteSystemUser } = await import('./authApi')
+  await apiDeleteSystemUser(id)
 }
 
 export function getSession(): AuthUser | null {

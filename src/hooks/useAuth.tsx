@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(() => getSession())
 
   const login = useCallback(async (loginName: string, password: string) => {
-    const next = loginWithCredentials(loginName, password)
+    const next = await loginWithCredentials(loginName, password)
     setUser(next)
     return next
   }, [])

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,7 +39,8 @@ type FormValues = z.infer<typeof schema>
 
 export function SystemUsersPage() {
   const { t } = useTranslation()
-  const [users, setUsers] = useState<SystemUserRecord[]>(() => listSystemUsers())
+  const [users, setUsers] = useState<SystemUserRecord[]>([])
+  const [loading, setLoading] = useState(true)
   const [customRoles, setCustomRoles] = useState<string[]>([])
   const [newRoleName, setNewRoleName] = useState('')
   const [permissions, setPermissions] = useState<PermissionKey[]>(['dashboard'])
@@ -84,7 +85,22 @@ export function SystemUsersPage() {
     return value
   }
 
-  const refresh = () => setUsers(listSystemUsers())
+  const refresh = async () => {
+    setLoading(true)
+    try {
+      setUsers(await listSystemUsers())
+      setFormError('')
+    } catch {
+      setFormError(t('systemUsers.serverUnavailable'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    void refresh()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const togglePermission = (key: PermissionKey) => {
     setPermissions((prev) =>
@@ -111,7 +127,7 @@ export function SystemUsersPage() {
     setFormError('')
   }
 
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = handleSubmit(async (values) => {
     setFormError('')
     setFormSuccess('')
     const password = values.password.trim()
@@ -125,7 +141,7 @@ export function SystemUsersPage() {
     }
     try {
       if (editingId) {
-        updateSystemUser(editingId, {
+        await updateSystemUser(editingId, {
           fullName: values.fullName,
           login: values.login,
           password: password || undefined,
@@ -134,7 +150,7 @@ export function SystemUsersPage() {
         })
         setFormSuccess(t('systemUsers.updated'))
       } else {
-        createSystemUser({
+        await createSystemUser({
           fullName: values.fullName,
           login: values.login,
           password,
@@ -143,13 +159,13 @@ export function SystemUsersPage() {
         })
         setFormSuccess(t('systemUsers.created'))
       }
-      refresh()
+      await refresh()
       clearForm()
     } catch (err) {
       const code = err instanceof Error ? err.message : ''
       if (code === 'LOGIN_EXISTS') setFormError(t('systemUsers.loginExists'))
       else if (code === 'PROTECTED') setFormError(t('systemUsers.protectedUser'))
-      else setFormError(t('validation.required'))
+      else setFormError(t('systemUsers.serverUnavailable'))
     }
   })
 
@@ -174,15 +190,16 @@ export function SystemUsersPage() {
     }
   }
 
-  const removeUser = (id: string) => {
+  const removeUser = async (id: string) => {
     setFormError('')
     try {
-      deleteSystemUser(id)
-      refresh()
+      await deleteSystemUser(id)
+      await refresh()
       if (editingId === id) clearForm()
     } catch (err) {
       const code = err instanceof Error ? err.message : ''
       if (code === 'PROTECTED') setFormError(t('systemUsers.protectedUser'))
+      else setFormError(t('systemUsers.serverUnavailable'))
     }
   }
 
@@ -310,7 +327,9 @@ export function SystemUsersPage() {
         <GlassCard hover={false}>
           <h2 className="mb-4 font-display text-base">{t('systemUsers.usersList')}</h2>
           <div className="space-y-3">
-            {users.length === 0 ? (
+            {loading ? (
+              <p className="text-sm text-text-muted">{t('common.loading')}</p>
+            ) : users.length === 0 ? (
               <p className="text-sm text-text-muted">{t('common.noResults')}</p>
             ) : (
               users.map((user) => (
@@ -340,7 +359,7 @@ export function SystemUsersPage() {
                       size="sm"
                       icon={<Trash2 size={14} />}
                       disabled={user.id === 'user-admin'}
-                      onClick={() => removeUser(user.id)}
+                      onClick={() => void removeUser(user.id)}
                     >
                       {t('systemUsers.delete')}
                     </GlassButton>

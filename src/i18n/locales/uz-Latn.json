@@ -339,6 +339,7 @@
     "protectedUser": "Asosiy admin o'chirilmaydi",
     "created": "Foydalanuvchi saqlandi — endi shu login/parol bilan kiring",
     "updated": "Foydalanuvchi yangilandi",
+    "serverUnavailable": "Serverga ulanib bo‘lmadi. npm run dev ishlayotganini tekshiring",
     "roles": {
       "admin": "Admin",
       "director": "Direktor",

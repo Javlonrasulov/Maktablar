@@ -339,6 +339,7 @@
     "protectedUser": "Main admin cannot be deleted",
     "created": "User saved — you can now log in with these credentials",
     "updated": "User updated",
+    "serverUnavailable": "Cannot reach server. Make sure npm run dev is running",
     "roles": {
       "admin": "Admin",
       "director": "Director",
