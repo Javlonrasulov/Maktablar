@@ -1,60 +1,39 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Expand, Layers, Minimize2, Mountain, Satellite } from 'lucide-react'
 import { GlassCard } from '@/design-system'
 import { useTheme } from '@/hooks/useTheme'
-import type { School, SchoolStatus } from '@/services/types'
-
-const statusColor: Record<SchoolStatus, string> = {
-  normal: '#34d399',
-  shortage: '#fbbf24',
-  overload: '#fb923c',
-  problem: '#f87171',
-}
 
 const DEFAULT_CENTER: [number, number] = [40.158, 65.375]
-const DEFAULT_ZOOM = 12
+const DEFAULT_ZOOM = 13
 
 type MapBaseLayer = 'streets' | 'satellite' | 'terrain'
 
-function escapeHtml(value: string) {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;')
-}
+const pinIcon = L.divIcon({
+  className: 'location-picker-pin',
+  iconSize: [28, 28],
+  iconAnchor: [14, 28],
+  html: `<span style="
+    display:block;
+    width:28px;
+    height:28px;
+    border-radius:50% 50% 50% 0;
+    transform:rotate(-45deg);
+    background:#38bdf8;
+    border:2px solid #fff;
+    box-shadow:0 2px 8px rgba(15,23,42,.35);
+  "></span>`,
+})
 
-function schoolLabelIcon(name: string, status: SchoolStatus) {
-  const color = statusColor[status]
-  const label = escapeHtml(name)
-  return L.divIcon({
-    className: 'school-map-label',
-    iconSize: [96, 20],
-    iconAnchor: [48, 10],
-    html: `<span style="
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      max-width:96px;
-      padding:2px 6px;
-      border-radius:6px;
-      background:rgba(255,255,255,.92);
-      border:1px solid ${color};
-      box-shadow:0 1px 4px rgba(15,23,42,.18);
-      color:${color};
-      font:600 10px/1.2 'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      pointer-events:auto;
-      cursor:pointer;
-    " title="${label}">${label}</span>`,
+function MapClickHandler({ onPick }: { onPick: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click(e) {
+      onPick(e.latlng.lat, e.latlng.lng)
+    },
   })
+  return null
 }
 
 function MapViewSync({ center, zoom }: { center: [number, number]; zoom: number }) {
@@ -88,7 +67,7 @@ function BaseTileLayer({ layer, isLight }: { layer: MapBaseLayer; isLight: boole
     return (
       <TileLayer
         key="satellite"
-        attribution='Tiles &copy; Esri'
+        attribution="Tiles &copy; Esri"
         url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         maxZoom={19}
       />
@@ -120,25 +99,21 @@ function BaseTileLayer({ layer, isLight }: { layer: MapBaseLayer; isLight: boole
   )
 }
 
-interface DistrictMapProps {
-  schools: School[]
+interface LocationPickerMapProps {
+  lat: number
+  lng: number
+  onChange: (lat: number, lng: number) => void
   height?: number
   title?: string
-  center?: [number, number]
-  zoom?: number
-  showLegend?: boolean
-  showDetailsLink?: boolean
 }
 
-export function DistrictMap({
-  schools,
+export function LocationPickerMap({
+  lat,
+  lng,
+  onChange,
   height = 420,
   title,
-  center,
-  zoom,
-  showLegend = true,
-  showDetailsLink = true,
-}: DistrictMapProps) {
+}: LocationPickerMapProps) {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const isLight = theme === 'light'
@@ -149,10 +124,9 @@ export function DistrictMap({
   const [layersOpen, setLayersOpen] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
-  const mapCenter =
-    center ??
-    (schools.length === 1 ? ([schools[0].lat, schools[0].lng] as [number, number]) : DEFAULT_CENTER)
-  const mapZoom = zoom ?? (schools.length === 1 ? 14 : DEFAULT_ZOOM)
+  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng) && !(lat === 0 && lng === 0)
+  const center: [number, number] = hasPoint ? [lat, lng] : DEFAULT_CENTER
+  const zoom = hasPoint ? 14 : DEFAULT_ZOOM
 
   useEffect(() => {
     const onFsChange = () => {
@@ -234,6 +208,7 @@ export function DistrictMap({
         {title && !isFullscreen ? (
           <div className="border-b border-line px-5 py-4">
             <h3 className="font-display text-base">{title}</h3>
+            <p className="mt-1 text-sm text-text-muted">{t('schoolWorkspace.locationHint')}</p>
           </div>
         ) : null}
         <div
@@ -241,43 +216,18 @@ export function DistrictMap({
           className={`relative w-full ${isFullscreen ? 'min-h-0 flex-1' : ''}`}
         >
           <MapContainer
-            center={mapCenter}
-            zoom={mapZoom}
+            center={center}
+            zoom={zoom}
             scrollWheelZoom={false}
             className={`h-full w-full ${isFullscreen ? 'rounded-none' : 'rounded-[22px]'}`}
             style={{ background: isLight ? '#e2e8f0' : '#0b1220' }}
           >
-            <MapViewSync center={mapCenter} zoom={mapZoom} />
+            <MapViewSync center={center} zoom={zoom} />
             <MapResizeSync active={isFullscreen} />
-            <ScrollZoomSync enabled={isFullscreen} />
+            <ScrollZoomSync enabled />
             <BaseTileLayer layer={baseLayer} isLight={isLight} />
-            {schools.map((school) => (
-              <Marker
-                key={school.id}
-                position={[school.lat, school.lng]}
-                icon={schoolLabelIcon(school.name, school.status)}
-              >
-                <Popup className="navbahor-popup">
-                  <div className="min-w-[180px] space-y-1 text-sm">
-                    <p className="font-semibold">{school.name}</p>
-                    <p>
-                      {t('common.director')}: {school.director}
-                    </p>
-                    <p>
-                      {t('common.status')}: {t(`status.${school.status}`)}
-                    </p>
-                    <p>
-                      {t('common.teachers')}: {school.teachersCount}
-                    </p>
-                    {showDetailsLink ? (
-                      <Link to={`/schools/${school.id}`} className="text-sky-600 underline">
-                        {t('common.details')}
-                      </Link>
-                    ) : null}
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+            <MapClickHandler onPick={onChange} />
+            {hasPoint ? <Marker position={[lat, lng]} icon={pinIcon} /> : null}
           </MapContainer>
 
           <div className="pointer-events-none absolute right-3 top-3 z-[500] flex flex-col items-end gap-2">
@@ -330,18 +280,12 @@ export function DistrictMap({
             </button>
           </div>
         </div>
-        {showLegend ? (
-          <div
-            className={`flex flex-wrap gap-3 border-t border-line px-5 py-3 text-xs text-text-secondary ${
-              isFullscreen ? 'bg-bg-elevated/90 backdrop-blur-md' : ''
-            }`}
-          >
-            {(Object.keys(statusColor) as SchoolStatus[]).map((status) => (
-              <span key={status} className="inline-flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ background: statusColor[status] }} />
-                {t(`status.${status}`)}
-              </span>
-            ))}
+        {!isFullscreen ? (
+          <div className="border-t border-line px-5 py-3 text-xs text-text-muted">
+            {t('schoolWorkspace.locationCoords', {
+              lat: hasPoint ? lat.toFixed(5) : '—',
+              lng: hasPoint ? lng.toFixed(5) : '—',
+            })}
           </div>
         ) : null}
       </GlassCard>

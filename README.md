@@ -20,4 +20,4 @@ npm run build
 
 Default language is **Oʻzbek (Kirill)** and persists via `localStorage`.
 
-Mock data powers the dashboard, schools, teachers, subjects, workload, map, reports, and settings until a real API is connected.
+Mock data powers the dashboard, schools, teachers, subjects, workload, map, and system users until a real API is connected.

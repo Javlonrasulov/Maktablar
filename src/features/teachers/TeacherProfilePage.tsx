@@ -90,22 +90,34 @@ export function TeacherProfilePage() {
         </GlassCard>
 
         <GlassCard>
-          <h2 className="mb-3 font-display text-base">{t('teachers.subjects')}</h2>
-          <div className="flex flex-wrap gap-2">
-            {data.subjects.map((s) => (
-              <span key={s} className="rounded-full bg-accent/10 px-3 py-1 text-sm text-accent ring-1 ring-accent/20">
-                {s}
-              </span>
-            ))}
-          </div>
-          <h3 className="mb-2 mt-5 text-sm text-text-muted">{t('teachers.classes')}</h3>
-          <div className="flex flex-wrap gap-2">
-            {data.classes.map((c) => (
-              <span key={c} className="rounded-[14px] bg-fill px-3 py-1 text-sm">
-                {c}
-              </span>
-            ))}
-          </div>
+          <h2 className="mb-3 font-display text-base">{t('schoolWorkspace.assignments')}</h2>
+          {data.assignments?.length ? (
+            <ul className="space-y-2">
+              {data.assignments.map((item) => (
+                <li key={item.id} className="rounded-[14px] bg-fill px-3 py-2 text-sm">
+                  {item.className} — {item.subject} — {formatHours(item.hours, t('common.hours'))}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {data.subjects.map((s) => (
+                  <span key={s} className="rounded-[14px] bg-accent/10 px-3 py-1 text-sm text-accent ring-1 ring-accent/20">
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <h3 className="mb-2 mt-5 text-sm text-text-muted">{t('teachers.classes')}</h3>
+              <div className="flex flex-wrap gap-2">
+                {data.classes.map((c) => (
+                  <span key={c} className="rounded-[14px] bg-fill px-3 py-1 text-sm">
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
           <h3 className="mb-2 mt-5 text-sm text-text-muted">{t('teachers.schools')}</h3>
           <div className="flex flex-wrap gap-2">
             {data.schools.map((s) => (

@@ -3,80 +3,41 @@ import type {
   ChartBundle,
   DashboardKpis,
   NotificationItem,
-  School,
   SubjectStat,
   Teacher,
 } from './types'
 import { delay } from '@/lib/utils'
+import {
+  createSubjectSync,
+  getAllTeachersSync,
+  getSchoolSync,
+  getSchoolsSync,
+  getSubjectsSync,
+} from './schoolStore'
+import type { TeacherAssignment } from './types'
 
-const statuses: School['status'][] = ['normal', 'shortage', 'overload', 'problem']
-
-function school(
-  number: number,
-  director: string,
-  phone: string,
-  teachers: number,
-  students: number,
-  subjects: number,
-  hours: number,
-  vacant: number,
-  status: School['status'],
-  lat: number,
-  lng: number,
-  updatedAt: string,
-  hasData: boolean,
-): School {
-  return {
-    id: `school-${number}`,
-    number,
-    name: `${number}-maktab`,
-    director,
-    phone,
-    teachersCount: teachers,
-    studentsCount: students,
-    subjectsCount: subjects,
-    weeklyHours: hours,
-    vacantHours: vacant,
-    status,
-    lat,
-    lng,
-    updatedAt,
-    hasData,
-  }
+function withAssignments(teacher: Omit<Teacher, 'assignments'> & { assignments?: TeacherAssignment[] }): Teacher {
+  if (teacher.assignments?.length) return teacher as Teacher
+  const subject = teacher.subjects[0] ?? teacher.specialty
+  const hoursEach =
+    teacher.classes.length > 0
+      ? Math.max(1, Math.round(teacher.weeklyHours / teacher.classes.length))
+      : teacher.weeklyHours
+  const assignments: TeacherAssignment[] = teacher.classes.map((className, index) => ({
+    id: `${teacher.id}-a${index}`,
+    className,
+    subject,
+    hours: hoursEach,
+  }))
+  return { ...teacher, assignments }
 }
 
-export const schools: School[] = [
-  school(1, 'Karimov Abduvali', '+998 93 511 01 01', 42, 680, 18, 980, 12, 'normal', 40.1582, 65.3781, '2026-07-13', true),
-  school(2, 'Rakhimova Dilnoza', '+998 93 511 02 02', 38, 620, 17, 910, 28, 'shortage', 40.1621, 65.3712, '2026-07-12', true),
-  school(3, 'Toshpulatov Jasur', '+998 93 511 03 03', 51, 840, 19, 1180, 8, 'overload', 40.1554, 65.3855, '2026-07-13', true),
-  school(4, 'Axmedova Dilbar', '+998 93 511 04 04', 37, 590, 17, 870, 24, 'shortage', 40.1605, 65.3750, '2026-07-11', true),
-  school(5, 'Nurmatova Sevara', '+998 93 511 05 05', 34, 540, 16, 780, 40, 'shortage', 40.1688, 65.3620, '2026-07-10', true),
-  school(6, 'Qodirov Anvar', '+998 93 511 06 06', 41, 670, 18, 960, 14, 'normal', 40.1512, 65.3810, '2026-07-13', true),
-  school(7, 'Ismoilov Bekzod', '+998 93 511 07 07', 46, 720, 18, 1040, 5, 'normal', 40.1495, 65.3910, '2026-07-13', true),
-  school(8, 'Abdullayeva Madina', '+998 93 511 08 08', 29, 410, 15, 640, 55, 'problem', 40.1720, 65.3555, '2026-07-05', false),
-  school(9, 'Xolmatov Rustam', '+998 93 511 09 09', 43, 700, 18, 1010, 11, 'normal', 40.1640, 65.3890, '2026-07-12', true),
-  school(10, 'Sodiqov Farhod', '+998 93 511 10 10', 48, 790, 19, 1120, 15, 'normal', 40.1610, 65.3980, '2026-07-12', true),
-  school(11, 'Tursunova Zilola', '+998 93 511 11 11', 35, 550, 16, 820, 30, 'shortage', 40.1470, 65.3655, '2026-07-10', true),
-  school(12, 'Yusupova Nilufar', '+998 93 511 12 12', 36, 560, 17, 860, 32, 'shortage', 40.1450, 65.3700, '2026-07-11', true),
-  school(13, 'Rahmonov Bobur', '+998 93 511 13 13', 45, 740, 18, 1060, 9, 'normal', 40.1560, 65.3730, '2026-07-13', true),
-  school(14, 'Ganiev Sardor', '+998 93 511 14 14', 55, 920, 20, 1280, 0, 'overload', 40.1530, 65.3600, '2026-07-13', true),
-  school(15, 'Kholiqova Zarina', '+998 93 511 15 15', 40, 650, 18, 940, 18, 'normal', 40.1755, 65.3822, '2026-07-09', true),
-  school(16, 'Juraev Shuhrat', '+998 93 511 16 16', 33, 520, 16, 760, 36, 'shortage', 40.1690, 65.3680, '2026-07-08', true),
-  school(17, 'Norboyeva Kamola', '+998 93 511 17 17', 49, 810, 19, 1150, 7, 'overload', 40.1425, 65.3940, '2026-07-12', true),
-  school(18, 'Mirzayev Umid', '+998 93 511 18 18', 44, 700, 18, 1000, 10, 'normal', 40.1402, 65.3888, '2026-07-13', true),
-  school(19, 'Saidov Ilhom', '+998 93 511 19 19', 38, 600, 17, 900, 20, 'normal', 40.1730, 65.3770, '2026-07-11', true),
-  school(20, 'Olimova Shahzoda', '+998 93 511 20 20', 32, 480, 16, 720, 48, 'problem', 40.1666, 65.3450, '2026-07-03', false),
-  school(21, 'Mamatov Doniyor', '+998 93 511 21 21', 42, 690, 18, 990, 13, 'normal', 40.1540, 65.4005, '2026-07-13', true),
-  school(22, 'Ergashev Dilshod', '+998 93 511 22 22', 47, 760, 19, 1080, 6, 'normal', 40.1577, 65.4025, '2026-07-12', true),
-  school(23, 'Alimova Sevinch', '+998 93 511 23 23', 36, 570, 17, 850, 26, 'shortage', 40.1460, 65.3580, '2026-07-09', true),
-  school(24, 'Usmonov Azizbek', '+998 93 511 24 24', 50, 830, 19, 1170, 3, 'overload', 40.1710, 65.3860, '2026-07-13', true),
-  school(25, 'Xasanova Gulchehra', '+998 93 511 25 25', 39, 610, 17, 890, 22, 'shortage', 40.1488, 65.3544, '2026-07-13', true),
-  school(26, 'Karimova Nodira', '+998 93 511 26 26', 41, 660, 18, 950, 16, 'normal', 40.1635, 65.3510, '2026-07-10', true),
-  school(27, 'Sultonov Jahongir', '+998 93 511 27 27', 34, 530, 16, 790, 34, 'shortage', 40.1500, 65.3965, '2026-07-07', true),
-  school(28, 'Boymurodov Aziz', '+998 93 511 28 28', 53, 880, 20, 1220, 4, 'overload', 40.1701, 65.3922, '2026-07-11', true),
-]
+const statuses = ['normal', 'shortage', 'overload', 'problem'] as const
 
-const handcraftedTeachers: Teacher[] = [
+/** @deprecated use getSchoolsSync — kept for compatibility */
+export const schools = getSchoolsSync()
+
+const handcraftedTeachers: Omit<Teacher, 'assignments'>[] = [
   {
     id: 't1',
     fullName: 'Alimova Dilfuza Raximovna',
@@ -230,34 +191,28 @@ const teacherSeeds: Array<{
 ]
 
 export const teachers: Teacher[] = [
-  ...handcraftedTeachers,
-  ...teacherSeeds.map((seed, index) => ({
-    id: `t${index + 9}`,
-    fullName: seed.fullName,
-    phone: `+998 9${(index % 9) + 0} ${String(100 + index).padStart(3, '0')} ${String(200 + index).padStart(3, '0')} ${String(300 + index).padStart(3, '0')}`,
-    specialty: seed.specialty,
-    category: seed.category,
-    experienceYears: seed.experienceYears,
-    schoolId: `school-${seed.schoolNumber}`,
-    schoolName: `${seed.schoolNumber}-maktab`,
-    subjects: seed.subjects,
-    weeklyHours: seed.weeklyHours,
-    status: seed.status,
-    classes: seed.classes,
-    schools: [`${seed.schoolNumber}-maktab`],
-  })),
+  ...handcraftedTeachers.map(withAssignments),
+  ...teacherSeeds.map((seed, index) =>
+    withAssignments({
+      id: `t${index + 9}`,
+      fullName: seed.fullName,
+      phone: `+998 9${(index % 9) + 0} ${String(100 + index).padStart(3, '0')} ${String(200 + index).padStart(3, '0')} ${String(300 + index).padStart(3, '0')}`,
+      specialty: seed.specialty,
+      category: seed.category,
+      experienceYears: seed.experienceYears,
+      schoolId: `school-${seed.schoolNumber}`,
+      schoolName: `${seed.schoolNumber}-maktab`,
+      subjects: seed.subjects,
+      weeklyHours: seed.weeklyHours,
+      status: seed.status,
+      classes: seed.classes,
+      schools: [`${seed.schoolNumber}-maktab`],
+    }),
+  ),
 ]
 
-export const subjects: SubjectStat[] = [
-  { id: 's1', name: 'Matematika', teachersCount: 48, totalHours: 1420, vacantHours: 36, overloadHours: 48, topSchool: '14-maktab' },
-  { id: 's2', name: 'Ona tili', teachersCount: 52, totalHours: 1580, vacantHours: 12, overloadHours: 64, topSchool: '3-maktab' },
-  { id: 's3', name: 'Ingliz tili', teachersCount: 34, totalHours: 980, vacantHours: 72, overloadHours: 20, topSchool: '28-maktab' },
-  { id: 's4', name: 'Fizika', teachersCount: 28, totalHours: 760, vacantHours: 44, overloadHours: 16, topSchool: '1-maktab' },
-  { id: 's5', name: 'Biologiya', teachersCount: 30, totalHours: 820, vacantHours: 28, overloadHours: 12, topSchool: '10-maktab' },
-  { id: 's6', name: 'Informatika', teachersCount: 22, totalHours: 640, vacantHours: 58, overloadHours: 8, topSchool: '22-maktab' },
-  { id: 's7', name: 'Tarix', teachersCount: 26, totalHours: 700, vacantHours: 18, overloadHours: 10, topSchool: '18-maktab' },
-  { id: 's8', name: 'Kimyo', teachersCount: 24, totalHours: 680, vacantHours: 40, overloadHours: 14, topSchool: '7-maktab' },
-]
+/** @deprecated use getSubjectsSync — kept for chart/search compatibility */
+export const subjects: SubjectStat[] = getSubjectsSync()
 
 export const notifications: NotificationItem[] = [
   { id: 'n1', type: 'update', schoolNumber: 18, messageKey: 'notifications.dataEntered', createdAt: '2026-07-13T09:20:00', read: false },
@@ -275,8 +230,9 @@ export const aiInsights: AiInsight[] = [
 ]
 
 export function getDashboardKpis(): DashboardKpis {
+  const schools = getSchoolsSync()
   const withData = schools.filter((s) => s.hasData)
-  const today = '2026-07-13'
+  const today = new Date().toISOString().slice(0, 10)
   return {
     totalSchools: schools.length,
     totalTeachers: schools.reduce((a, s) => a + s.teachersCount, 0),
@@ -286,11 +242,12 @@ export function getDashboardKpis(): DashboardKpis {
     mostLoadedSubject: 'Ona tili',
     leastLoadedSubject: 'Informatika',
     updatedToday: withData.filter((s) => s.updatedAt === today).length,
-    noDataSchools: schools.filter((s) => !s.hasData).length,
+    noDataSchools: schools.filter((s) => !s.hasData || !s.profileComplete).length,
   }
 }
 
 export function getCharts(): ChartBundle {
+  const schools = getSchoolsSync()
   return {
     monthlyHours: [
       { month: 'Yan', hours: 11800 },
@@ -314,7 +271,9 @@ export function getCharts(): ChartBundle {
       name,
       value: schools.filter((s) => s.status === name).length,
     })),
-    subjectBars: subjects.slice(0, 6).map((s) => ({ subject: s.name, hours: s.totalHours })),
+    subjectBars: getSubjectsSync()
+      .slice(0, 6)
+      .map((s) => ({ subject: s.name, hours: s.totalHours })),
     radarMetrics: [
       { metric: 'Yuklama', value: 78 },
       { metric: 'Kadr', value: 64 },
@@ -323,7 +282,7 @@ export function getCharts(): ChartBundle {
       { metric: 'Sifat', value: 71 },
       { metric: 'Yangilanish', value: 69 },
     ],
-    treemap: schools.map((s) => ({ name: s.name, value: s.weeklyHours })),
+    treemap: schools.map((s) => ({ name: s.name, value: s.weeklyHours || 1 })),
     heatmap: [
       [12, 18, 22, 28, 30, 24, 16],
       [14, 20, 26, 32, 34, 28, 18],
@@ -359,51 +318,51 @@ export function getCharts(): ChartBundle {
 
 export async function fetchSchools() {
   await delay(350)
-  return schools
+  return getSchoolsSync()
 }
 
 export async function fetchSchool(id: string) {
   await delay(250)
-  return schools.find((s) => s.id === id) ?? null
+  return getSchoolSync(id)
 }
 
 export async function fetchTeachers() {
   await delay(350)
-  return teachers
+  const stored = getAllTeachersSync()
+  const storedIds = new Set(stored.map((t) => t.id))
+  return [...stored, ...teachers.filter((t) => !storedIds.has(t.id))]
 }
 
 export async function fetchTeacher(id: string) {
   await delay(250)
-  return teachers.find((t) => t.id === id) ?? null
+  return getAllTeachersSync().find((t) => t.id === id) ?? teachers.find((t) => t.id === id) ?? null
+}
+
+export async function fetchSchoolTeachers(schoolId: string) {
+  await delay(200)
+  const stored = getAllTeachersSync().filter((t) => t.schoolId === schoolId)
+  if (stored.length) return stored
+  return teachers.filter((t) => t.schoolId === schoolId)
 }
 
 export async function fetchSubjects() {
   await delay(300)
-  return [...subjects]
+  return getSubjectsSync()
 }
 
 export async function createSubject(name: string) {
   await delay(250)
-  const created: SubjectStat = {
-    id: `s${Date.now()}`,
-    name: name.trim(),
-    teachersCount: 0,
-    totalHours: 0,
-    vacantHours: 0,
-    overloadHours: 0,
-    topSchool: '—',
-  }
-  subjects.push(created)
-  return created
+  return createSubjectSync(name)
 }
 
 export async function fetchDashboard() {
   await delay(400)
+  const schoolsList = getSchoolsSync()
   return {
     kpis: getDashboardKpis(),
     charts: getCharts(),
     insights: aiInsights,
-    schools,
+    schools: schoolsList,
     notifications,
   }
 }
@@ -411,9 +370,10 @@ export async function fetchDashboard() {
 export async function globalSearch(query: string) {
   await delay(200)
   const q = query.trim().toLowerCase()
+  const schoolsList = getSchoolsSync()
   if (!q) return { schools: [], teachers: [], subjects: [] }
   return {
-    schools: schools.filter(
+    schools: schoolsList.filter(
       (s) =>
         s.name.toLowerCase().includes(q) ||
         s.director.toLowerCase().includes(q) ||
@@ -427,7 +387,7 @@ export async function globalSearch(query: string) {
         t.specialty.toLowerCase().includes(q) ||
         t.subjects.some((s) => s.toLowerCase().includes(q)),
     ),
-    subjects: subjects.filter((s) => s.name.toLowerCase().includes(q)),
+    subjects: getSubjectsSync().filter((s) => s.name.toLowerCase().includes(q)),
   }
 }
 

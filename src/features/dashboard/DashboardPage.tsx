@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { PageSkeleton, GlassCard } from '@/design-system'
 import { fetchDashboard } from '@/services/mockApi'
 import { KpiGrid } from './KpiGrid'
@@ -44,12 +43,6 @@ export function DashboardPage() {
       </div>
 
       <DashboardCharts charts={data.charts} />
-
-      <div className="flex justify-end">
-        <Link to="/reports" className="text-sm text-accent hover:underline">
-          {t('common.viewAll')} →
-        </Link>
-      </div>
     </div>
   )
 }

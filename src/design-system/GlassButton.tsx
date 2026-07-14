@@ -41,7 +41,7 @@ export function GlassButton({
       whileHover={{ y: -1, scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
       className={cn(
-        'inline-flex items-center justify-center rounded-[22px] border font-medium transition-colors disabled:opacity-50',
+        'inline-flex items-center justify-center whitespace-nowrap rounded-[22px] border font-medium transition-colors disabled:opacity-50',
         variants[variant],
         sizes[size],
         className,

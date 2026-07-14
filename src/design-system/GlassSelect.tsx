@@ -1,4 +1,5 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -19,6 +20,14 @@ type GlassSelectProps = {
   id?: string
 }
 
+type MenuPos = {
+  top: number
+  left: number
+  width: number
+  maxHeight: number
+  openUp: boolean
+}
+
 export function GlassSelect({
   label,
   value,
@@ -30,7 +39,10 @@ export function GlassSelect({
   id,
 }: GlassSelectProps) {
   const [open, setOpen] = useState(false)
+  const [menuPos, setMenuPos] = useState<MenuPos | null>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLUListElement>(null)
   const autoId = useId()
   const triggerId = id ?? autoId
   const listId = `${triggerId}-list`
@@ -40,10 +52,47 @@ export function GlassSelect({
     [options, value],
   )
 
+  const updateMenuPos = () => {
+    const trigger = triggerRef.current
+    if (!trigger) return
+    const rect = trigger.getBoundingClientRect()
+    const gap = 8
+    const preferredMax = 256
+    const spaceBelow = window.innerHeight - rect.bottom - gap - 12
+    const spaceAbove = rect.top - gap - 12
+    const openUp = spaceBelow < 160 && spaceAbove > spaceBelow
+    const maxHeight = Math.max(120, Math.min(preferredMax, openUp ? spaceAbove : spaceBelow))
+    setMenuPos({
+      top: openUp ? rect.top - gap : rect.bottom + gap,
+      left: rect.left,
+      width: rect.width,
+      maxHeight,
+      openUp,
+    })
+  }
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setMenuPos(null)
+      return
+    }
+    updateMenuPos()
+    const onReposition = () => updateMenuPos()
+    window.addEventListener('resize', onReposition)
+    window.addEventListener('scroll', onReposition, true)
+    return () => {
+      window.removeEventListener('resize', onReposition)
+      window.removeEventListener('scroll', onReposition, true)
+    }
+  }, [open])
+
   useEffect(() => {
     if (!open) return
     const onPointer = (e: MouseEvent) => {
-      if (!rootRef.current?.contains(e.target as Node)) setOpen(false)
+      const target = e.target as Node
+      if (rootRef.current?.contains(target)) return
+      if (menuRef.current?.contains(target)) return
+      setOpen(false)
     }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
@@ -56,6 +105,60 @@ export function GlassSelect({
     }
   }, [open])
 
+  const menu =
+    open && menuPos
+      ? createPortal(
+          <AnimatePresence>
+            <motion.ul
+              ref={menuRef}
+              id={listId}
+              role="listbox"
+              aria-labelledby={label ? `${triggerId}-label` : triggerId}
+              initial={{ opacity: 0, y: menuPos.openUp ? 6 : -6, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: menuPos.openUp ? 4 : -4, scale: 0.98 }}
+              transition={{ duration: 0.18 }}
+              style={{
+                position: 'fixed',
+                left: menuPos.left,
+                width: menuPos.width,
+                maxHeight: menuPos.maxHeight,
+                zIndex: 4000,
+                ...(menuPos.openUp
+                  ? { bottom: window.innerHeight - menuPos.top, top: 'auto' }
+                  : { top: menuPos.top }),
+              }}
+              className="glass-strong overflow-y-auto rounded-[18px] p-1.5 shadow-float"
+            >
+              {options.map((option) => {
+                const isSelected = option.value === value
+                return (
+                  <li key={option.value} role="option" aria-selected={isSelected}>
+                    <button
+                      type="button"
+                      className={cn(
+                        'flex w-full items-center justify-between gap-3 rounded-[14px] px-3 py-2 text-left text-sm transition-colors',
+                        isSelected
+                          ? 'bg-accent text-white'
+                          : 'text-text-secondary hover:bg-fill hover:text-text-primary',
+                      )}
+                      onClick={() => {
+                        onChange(option.value)
+                        setOpen(false)
+                      }}
+                    >
+                      <span className="truncate">{option.label}</span>
+                      {isSelected ? <Check size={14} className="shrink-0 opacity-90" /> : null}
+                    </button>
+                  </li>
+                )
+              })}
+            </motion.ul>
+          </AnimatePresence>,
+          document.body,
+        )
+      : null
+
   return (
     <div className={cn('flex w-full flex-col gap-2 text-left', className)} ref={rootRef}>
       {label ? (
@@ -66,6 +169,7 @@ export function GlassSelect({
 
       <div className="relative">
         <button
+          ref={triggerRef}
           type="button"
           id={triggerId}
           disabled={disabled}
@@ -92,46 +196,8 @@ export function GlassSelect({
             aria-hidden
           />
         </button>
-
-        <AnimatePresence>
-          {open ? (
-            <motion.ul
-              id={listId}
-              role="listbox"
-              aria-labelledby={label ? `${triggerId}-label` : triggerId}
-              initial={{ opacity: 0, y: -6, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.98 }}
-              transition={{ duration: 0.18 }}
-              className="glass-strong absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-64 overflow-y-auto rounded-[18px] p-1.5"
-            >
-              {options.map((option) => {
-                const isSelected = option.value === value
-                return (
-                  <li key={option.value} role="option" aria-selected={isSelected}>
-                    <button
-                      type="button"
-                      className={cn(
-                        'flex w-full items-center justify-between gap-3 rounded-[14px] px-3 py-2 text-left text-sm transition-colors',
-                        isSelected
-                          ? 'bg-accent text-white'
-                          : 'text-text-secondary hover:bg-fill hover:text-text-primary',
-                      )}
-                      onClick={() => {
-                        onChange(option.value)
-                        setOpen(false)
-                      }}
-                    >
-                      <span className="truncate">{option.label}</span>
-                      {isSelected ? <Check size={14} className="shrink-0 opacity-90" /> : null}
-                    </button>
-                  </li>
-                )
-              })}
-            </motion.ul>
-          ) : null}
-        </AnimatePresence>
       </div>
+      {menu}
     </div>
   )
 }

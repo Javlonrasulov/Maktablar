@@ -10,6 +10,7 @@ import { Navbar } from '@/components/Navbar'
 import { Sidebar } from '@/components/Sidebar'
 import { BottomNav } from '@/components/BottomNav'
 import { GlobalSearch } from '@/components/GlobalSearch'
+import { MobilePrefsPanel } from '@/components/MobilePrefsPanel'
 import { NotificationCenter } from '@/components/NotificationCenter'
 import { NavItemLink, useNavItems } from '@/components/navConfig'
 
@@ -65,7 +66,7 @@ export function AppLayout() {
       />
 
       <GlassDrawer open={menuOpen} onClose={() => setMenuOpen(false)} title={t('nav.menu')} side="left">
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1.5 p-2">
           {navItems.map((item) => (
             <NavItemLink
               key={item.to}
@@ -76,6 +77,9 @@ export function AppLayout() {
             />
           ))}
         </nav>
+        <div className="lg:hidden">
+          <MobilePrefsPanel />
+        </div>
       </GlassDrawer>
     </div>
   )

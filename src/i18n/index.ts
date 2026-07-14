@@ -6,10 +6,10 @@ import ru from './locales/ru.json'
 import en from './locales/en.json'
 
 export const languages = [
-  { code: 'uz-Cyrl', label: "Ўзбек (Кирил)" },
-  { code: 'uz-Latn', label: "O'zbek (Lotin)" },
-  { code: 'ru', label: 'Русский' },
-  { code: 'en', label: 'English' },
+  { code: 'uz-Cyrl', label: "Ўзбек (Кирил)", short: 'Ўз' },
+  { code: 'uz-Latn', label: "O'zbek (Lotin)", short: "O'z" },
+  { code: 'ru', label: 'Русский', short: 'Ru' },
+  { code: 'en', label: 'English', short: 'En' },
 ] as const
 
 export type AppLanguage = (typeof languages)[number]['code']

@@ -65,8 +65,9 @@
   --theme-shimmer-a: rgba(15, 23, 42, 0.03);
   --theme-shimmer-b: rgba(15, 23, 42, 0.08);
   --theme-active-glow:
-    0 0 0 1px rgba(2, 132, 199, 0.3),
-    0 0 20px rgba(2, 132, 199, 0.18),
+    0 0 0 1px rgba(2, 132, 199, 0.35),
+    0 4px 14px rgba(2, 132, 199, 0.14),
+    inset 0 0 18px rgba(2, 132, 199, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -107,8 +108,9 @@
   --theme-shimmer-a: rgba(255, 255, 255, 0.03);
   --theme-shimmer-b: rgba(255, 255, 255, 0.1);
   --theme-active-glow:
-    0 0 0 1px rgba(56, 189, 248, 0.35),
-    0 0 24px rgba(56, 189, 248, 0.25),
+    0 0 0 1px rgba(56, 189, 248, 0.4),
+    0 4px 14px rgba(56, 189, 248, 0.18),
+    inset 0 0 20px rgba(56, 189, 248, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -226,5 +228,10 @@
 
   .safe-bottom {
     padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .school-map-label {
+    background: transparent !important;
+    border: none !important;
   }
 }

@@ -4,28 +4,36 @@ import {
   BarChart3,
   BookOpen,
   Building2,
-  FileSpreadsheet,
   LayoutDashboard,
   Map,
-  Settings,
+  School,
+  UserCog,
   Users,
 } from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
 
-export const mainNav = [
+const adminNav = [
   { to: '/', key: 'dashboard', icon: LayoutDashboard },
   { to: '/schools', key: 'schools', icon: Building2 },
   { to: '/teachers', key: 'teachers', icon: Users },
   { to: '/subjects', key: 'subjects', icon: BookOpen },
   { to: '/workload', key: 'workload', icon: BarChart3 },
   { to: '/map', key: 'map', icon: Map },
-  { to: '/reports', key: 'reports', icon: FileSpreadsheet },
-  { to: '/settings', key: 'settings', icon: Settings },
+  { to: '/system-users', key: 'systemUsers', icon: UserCog },
 ] as const
+
+const schoolNav = [
+  { to: '/my-school', key: 'mySchool', icon: School },
+] as const
+
+export const mainNav = adminNav
 
 export function useNavItems() {
   const { t } = useTranslation()
-  return mainNav.map((item) => ({
+  const { isSchool } = useAuth()
+  const items = isSchool ? schoolNav : adminNav
+  return items.map((item) => ({
     ...item,
     label: t(`nav.${item.key}`),
   }))
@@ -62,7 +70,10 @@ export function NavItemLink({
       <Icon
         size={20}
         strokeWidth={1.6}
-        className={cn('shrink-0 transition-transform duration-300 group-hover:scale-110', active && 'drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]')}
+        className={cn(
+          'shrink-0 transition-transform duration-300 group-hover:scale-110',
+          active && 'drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]',
+        )}
       />
       {!collapsed ? <span className="truncate font-medium">{label}</span> : null}
     </NavLink>

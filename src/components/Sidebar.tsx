@@ -34,7 +34,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           aria-label="Toggle sidebar"
         />
       </div>
-      <nav className="flex flex-1 flex-col gap-1 overflow-auto">
+      <nav className="flex flex-1 flex-col gap-1.5 overflow-y-auto overflow-x-visible p-2">
         {items.map((item) => (
           <NavItemLink
             key={item.to}

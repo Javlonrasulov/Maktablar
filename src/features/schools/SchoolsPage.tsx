@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table'
-import { Building2, LayoutGrid, List, Phone, User } from 'lucide-react'
+import { Building2, LayoutGrid, List, Phone, Plus, User } from 'lucide-react'
 import {
   GlassButton,
   GlassCard,
@@ -13,6 +13,8 @@ import {
   PageSkeleton,
 } from '@/design-system'
 import { DistrictMap } from '@/features/map/DistrictMap'
+import { AddSchoolModal } from '@/features/schools/AddSchoolModal'
+import { useAuth } from '@/hooks/useAuth'
 import { formatHours } from '@/lib/utils'
 import { fetchSchools } from '@/services/mockApi'
 import type { School, SchoolStatus } from '@/services/types'
@@ -25,12 +27,14 @@ const columnHelper = createColumnHelper<School>()
 
 export function SchoolsPage() {
   const { t } = useTranslation()
+  const { isAdmin } = useAuth()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState<SchoolStatus | 'all'>('all')
   const [page, setPage] = useState(1)
   const [filterOpen, setFilterOpen] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('card')
+  const [addOpen, setAddOpen] = useState(false)
 
   const { data = [], isLoading } = useQuery({ queryKey: ['schools'], queryFn: fetchSchools })
 
@@ -154,7 +158,14 @@ export function SchoolsPage() {
           <h1 className="font-display text-2xl font-semibold md:text-3xl">{t('schools.title')}</h1>
           <p className="text-sm text-text-secondary md:text-base">{t('schools.subtitle')}</p>
         </div>
-        {viewToggle}
+        <div className="flex flex-wrap items-center gap-2">
+          {isAdmin ? (
+            <GlassButton variant="primary" icon={<Plus size={16} />} onClick={() => setAddOpen(true)}>
+              {t('schools.add')}
+            </GlassButton>
+          ) : null}
+          {viewToggle}
+        </div>
       </header>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
@@ -188,6 +199,11 @@ export function SchoolsPage() {
                     <span className="mt-1 inline-flex rounded-full bg-fill px-2 py-0.5 text-xs text-text-secondary ring-1 ring-line">
                       {t(`status.${school.status}`)}
                     </span>
+                    {!school.profileComplete ? (
+                      <span className="mt-1 ml-1 inline-flex rounded-full bg-warning/10 px-2 py-0.5 text-xs text-warning ring-1 ring-warning/20">
+                        {t('schools.incomplete')}
+                      </span>
+                    ) : null}
                   </div>
                 </div>
                 <div className="space-y-2 text-sm text-text-secondary">
@@ -245,6 +261,8 @@ export function SchoolsPage() {
       <GlassDrawer open={filterOpen} onClose={() => setFilterOpen(false)} title={t('common.filter')}>
         {filters}
       </GlassDrawer>
+
+      <AddSchoolModal open={addOpen} onClose={() => setAddOpen(false)} />
     </div>
   )
 }
