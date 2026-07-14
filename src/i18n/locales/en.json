@@ -325,6 +325,7 @@
     "loginPlaceholder": "login or +998...",
     "password": "Password",
     "passwordPlaceholder": "Password",
+    "passwordKeepPlaceholder": "Leave empty or enter a new password",
     "role": "Role",
     "defaultRolesHint": "Default roles (Admin, Director, Operator) cannot be deleted.",
     "extraRoles": "Additional roles",

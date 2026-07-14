@@ -28,12 +28,10 @@ const PERMISSION_KEYS = [
 
 type PermissionKey = (typeof PERMISSION_KEYS)[number]
 
-const PASSWORD_UNCHANGED = '********'
-
 const schema = z.object({
   fullName: z.string().min(2),
   login: z.string().min(3),
-  password: z.string().min(4),
+  password: z.string(),
   role: z.string().min(1),
 })
 
@@ -116,15 +114,21 @@ export function SystemUsersPage() {
   const onSubmit = handleSubmit((values) => {
     setFormError('')
     setFormSuccess('')
+    const password = values.password.trim()
+    if (!editingId && password.length < 4) {
+      setFormError(t('validation.required'))
+      return
+    }
+    if (editingId && password && password.length < 4) {
+      setFormError(t('validation.required'))
+      return
+    }
     try {
       if (editingId) {
         updateSystemUser(editingId, {
           fullName: values.fullName,
           login: values.login,
-          password:
-            values.password === PASSWORD_UNCHANGED || !values.password.trim()
-              ? undefined
-              : values.password,
+          password: password || undefined,
           jobRole: values.role,
           permissions: [...permissions],
         })
@@ -133,7 +137,7 @@ export function SystemUsersPage() {
         createSystemUser({
           fullName: values.fullName,
           login: values.login,
-          password: values.password,
+          password,
           jobRole: values.role,
           permissions: [...permissions],
         })
@@ -155,7 +159,7 @@ export function SystemUsersPage() {
     setFormSuccess('')
     setValue('fullName', user.fullName)
     setValue('login', user.login)
-    setValue('password', PASSWORD_UNCHANGED)
+    setValue('password', '')
     setValue('role', user.jobRole)
     setPermissions(
       user.permissions.filter((p): p is PermissionKey =>
@@ -220,7 +224,11 @@ export function SystemUsersPage() {
             <GlassInput
               label={t('systemUsers.password')}
               type="password"
-              placeholder={t('systemUsers.passwordPlaceholder')}
+              placeholder={
+                editingId
+                  ? t('systemUsers.passwordKeepPlaceholder')
+                  : t('systemUsers.passwordPlaceholder')
+              }
               autoComplete="new-password"
               {...register('password')}
             />

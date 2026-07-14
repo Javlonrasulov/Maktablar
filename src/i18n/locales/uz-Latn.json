@@ -325,6 +325,7 @@
     "loginPlaceholder": "login yoki +998...",
     "password": "Parol",
     "passwordPlaceholder": "Parol",
+    "passwordKeepPlaceholder": "Bo'sh qoldiring yoki yangi parol yozing",
     "role": "Lavozim",
     "defaultRolesHint": "Standart lavozimlar (Admin, Direktor, Operator) o'chirilmaydi.",
     "extraRoles": "Qo'shimcha lavozimlar",

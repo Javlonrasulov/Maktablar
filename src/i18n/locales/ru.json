@@ -325,6 +325,7 @@
     "loginPlaceholder": "логин или +998...",
     "password": "Пароль",
     "passwordPlaceholder": "Пароль",
+    "passwordKeepPlaceholder": "Оставьте пустым или введите новый пароль",
     "role": "Должность",
     "defaultRolesHint": "Стандартные роли (Админ, Директор, Оператор) нельзя удалить.",
     "extraRoles": "Дополнительные роли",

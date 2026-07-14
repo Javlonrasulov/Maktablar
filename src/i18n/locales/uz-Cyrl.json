@@ -325,6 +325,7 @@
     "loginPlaceholder": "логин ёки +998...",
     "password": "Парол",
     "passwordPlaceholder": "Парол",
+    "passwordKeepPlaceholder": "Бўш қолдиринг ёки янги парол ёзинг",
     "role": "Лавозим",
     "defaultRolesHint": "Стандарт лавозимлар (Админ, Директор, Оператор) ўчирилмайди.",
     "extraRoles": "Қўшимча лавозимлар",

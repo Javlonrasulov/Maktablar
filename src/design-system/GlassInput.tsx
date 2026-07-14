@@ -17,9 +17,13 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     const inputType = isPassword && visible ? 'text' : type
 
     return (
-      <label className="flex w-full flex-col gap-2 text-left" htmlFor={inputId}>
-        {label ? <span className="text-sm text-text-secondary">{label}</span> : null}
-        <span className="relative block">
+      <div className="flex w-full flex-col gap-2 text-left">
+        {label ? (
+          <label className="text-sm text-text-secondary" htmlFor={inputId}>
+            {label}
+          </label>
+        ) : null}
+        <div className="relative block">
           <input
             ref={ref}
             id={inputId}
@@ -37,15 +41,23 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             <button
               type="button"
               tabIndex={-1}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted transition hover:text-text-primary"
-              onClick={() => setVisible((v) => !v)}
+              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-text-muted transition hover:text-text-primary"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setVisible((v) => !v)
+              }}
               aria-label={visible ? t('auth.hidePassword') : t('auth.showPassword')}
             >
               {visible ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           ) : null}
-        </span>
-      </label>
+        </div>
+      </div>
     )
   },
 )
