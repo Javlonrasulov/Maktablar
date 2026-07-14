@@ -24,8 +24,7 @@ function sendJson(res, status, data) {
 }
 
 /**
- * Vite middleware: shared auth / system-users API (file-backed).
- * All devices hitting this host share the same users.
+ * Vite middleware: local file-backed auth API.
  */
 export function authApiPlugin() {
   const mount = (server) => {
@@ -36,29 +35,29 @@ export function authApiPlugin() {
       try {
         if (req.method === 'POST' && url === '/api/login') {
           const body = await readBody(req)
-          const user = loginWithCredentials(body)
+          const user = await loginWithCredentials(body)
           return sendJson(res, 200, user)
         }
 
         if (req.method === 'GET' && url === '/api/system-users') {
-          return sendJson(res, 200, listSystemUsers())
+          return sendJson(res, 200, await listSystemUsers())
         }
 
         if (req.method === 'POST' && url === '/api/system-users') {
           const body = await readBody(req)
-          const created = createSystemUser(body)
+          const created = await createSystemUser(body)
           return sendJson(res, 201, created)
         }
 
         const updateMatch = url.match(/^\/api\/system-users\/([^/]+)$/)
         if (updateMatch && req.method === 'PUT') {
           const body = await readBody(req)
-          const updated = updateSystemUser(decodeURIComponent(updateMatch[1]), body)
+          const updated = await updateSystemUser(decodeURIComponent(updateMatch[1]), body)
           return sendJson(res, 200, updated)
         }
 
         if (updateMatch && req.method === 'DELETE') {
-          deleteSystemUser(decodeURIComponent(updateMatch[1]))
+          await deleteSystemUser(decodeURIComponent(updateMatch[1]))
           return sendJson(res, 200, { ok: true })
         }
 

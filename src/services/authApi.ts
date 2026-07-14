@@ -6,10 +6,14 @@ import type {
 } from './schoolStore'
 
 async function parseError(res: Response): Promise<string> {
+  const text = await res.text()
   try {
-    const data = (await res.json()) as { error?: string }
+    const data = JSON.parse(text) as { error?: string }
     return data.error || 'ERROR'
   } catch {
+    if (text.trimStart().startsWith('<!DOCTYPE') || text.trimStart().startsWith('<html')) {
+      return 'SERVER_UNAVAILABLE'
+    }
     return 'ERROR'
   }
 }
@@ -32,12 +36,16 @@ export async function apiLogin(
     body: JSON.stringify({ login, password, localAccounts }),
   })
   if (!res.ok) throw new Error(await parseError(res))
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) throw new Error('SERVER_UNAVAILABLE')
   return (await res.json()) as AuthUser
 }
 
 export async function apiListSystemUsers(): Promise<SystemUserRecord[]> {
   const res = await fetch('/api/system-users')
   if (!res.ok) throw new Error(await parseError(res))
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) throw new Error('SERVER_UNAVAILABLE')
   return (await res.json()) as SystemUserRecord[]
 }
 

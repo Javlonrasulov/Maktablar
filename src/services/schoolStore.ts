@@ -69,26 +69,8 @@ function getSystemUsersStore(): StoredUser[] {
   return readJson<StoredUser[]>(SYSTEM_USERS_KEY, [])
 }
 
-function saveSystemUsersStore(users: StoredUser[]) {
-  writeJson(SYSTEM_USERS_KEY, users)
-}
-
 function allLoginAccounts(): StoredUser[] {
   return [...getSystemUsersStore(), ...getUsers()]
-}
-
-function toSystemUserRecord(user: StoredUser): SystemUserRecord {
-  return {
-    id: user.id,
-    fullName: user.displayName,
-    login: user.login,
-    jobRole: user.jobRole ?? 'admin',
-    permissions: user.permissions ?? [],
-  }
-}
-
-function isBuiltinAdmin(user: StoredUser) {
-  return user.id === 'user-admin'
 }
 
 function school(
